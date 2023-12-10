@@ -182,6 +182,13 @@ def main_loop(layout, matrix):
                         elif (type(key) is lyr.MOKEY and not key.beyond_timing()):
                             ble_keyboard.press(key.key)
                             keys.append(key.key)
+                        elif (type(key) is lyr.MODKEY):
+                            if not key.beyond_timing():
+                                ble_keyboard.release(key.mod)
+                                ble_keyboard.press(key.key)
+                                keys.append(key.key)
+                            else :
+                                keys.append(key.mod)
                         layers.append(key.depress)
                     elif type(key) is int:
                         keys.append(key)
@@ -190,7 +197,9 @@ def main_loop(layout, matrix):
             for key in (layout[idx] for idx in new_pressed):
                 if key not in (None, _.TRANS) :
                     if callable(key):
-                        if not repress:
+                        if type(key) is lyr.MODKEY :
+                            keys.append(key.mod)
+                        elif not repress:
                             repress = True
                             ble_keyboard.release(*(layout[idx] for idx in old_pressed))
                         layers.append(key.press)
