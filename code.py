@@ -40,7 +40,7 @@ class Kbd_Matrix:
         # the exact purpose of it. However, if it ever does make problems, I suggest
         # replacing the sub operator with a xor operator, as there is no chance
         # it does return a negative result.
-        return s._not - num
+        return s._not ^ num
 
     def scan(s):
         """returns the state of physical keys
