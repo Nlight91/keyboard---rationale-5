@@ -34,10 +34,10 @@ class Layers :
         s.layer_order = []
         s.layer_state = {}
         s.restore_point = None
-        s.TOGGLE = s._class_dec(s.TOGGLE)
-        s.MOMENTARY = s._class_dec(s.MOMENTARY)
-        s.MOTO = s._class_dec(s.MOTO)
-        s.TAP = s._class_dec(s.TAP)
+        s.TOGGLE = s._class_dec(TOGGLE)
+        s.MOMENTARY = s._class_dec(MOMENTARY)
+        s.MOTO = s._class_dec(MOTO)
+        s.TAP = s._class_dec(TAP)
 
     def _class_dec(s, cls):
         """decorator used to insert a Layer isntance reference
@@ -58,82 +58,6 @@ class Layers :
         if layer_name not in s.layer_order :
             s.layer_order.append(layer_name)
             s.layer_state[layer_name] = False
-
-    class TOGGLE(LayerFunc):
-        def __init__(s, parent, layer_name, exclude_above=True, restore = False):
-            super().__init__(parent, layer_name, exclude_above, restore)
-        def press(s):
-            parent = s.parent
-            state = parent.layer_state[s.layer_name]
-            if s.restore :
-                if not state :
-                    parent.create_restore_point(s.idx)
-                else :
-                    parent.restore()
-            if s.exclude_above and not state:
-                parent.exclude_above(s.idx)
-            parent.layer_state[s.layer_name] = not(parent.layer_state[s.layer_name])
-
-    class MOMENTARY(LayerFunc):
-        def __init__(s, parent, layer_name, exclude_above=True, restore = True):
-            super().__init__(parent, layer_name, exclude_above, restore)
-        def press(s):
-            parent = s.parent
-            if s.restore :
-                parent.create_restore_point(s.idx)
-            if s.exclude_above :
-                parent.exclude_above(s.idx)
-            parent.layer_state[s.layer_name] = True
-        def depress(s, time_pressed=None):
-            parent = s.parent
-            if s.restore:
-                parent.restore()
-            parent.layer_state[s.layer_name] = False
-
-    class MOTO(LayerFunc):
-        def __init__(s, parent, layer_name, exclude_above=True, restore = True, timing=0.12):
-            super().__init__(parent, layer_name, exclude_above, restore)
-            s.TIMING_MOTO = timing
-            s.pressed_at = None
-        def beyond_timing(s):
-            if s.pressed_at :
-                return (time.time() - s.pressed_at) > s.TIMING_MOTO
-        def press(s):
-            parent = s.parent
-            state = parent.layer_state[s.layer_name]
-            if not state :
-                if s.restore :
-                    parent.create_restore_point(s.idx)
-                if s.exclude_above :
-                    parent.exclude_above(s.idx)
-                s.pressed_at = time.time()
-                parent.layer_state[s.layer_name] = True
-            else :
-                if s.pressed_at :
-                    s.pressed_at = None
-                if s.restore :
-                    parent.restore()
-                parent.layer_state[s.layer_name] = False
-        def depress(s):
-            parent = s.parent
-            if s.pressed_at and s.beyond_timing() :
-                if s.restore:
-                    parent.restore()
-                parent.layer_state[s.layer_name] = False
-                s.pressed_at = None
-
-    class TAP(LayerFunc):
-        def __init__(s, parent, layer_name, exclude_above=True, restore = True):
-            super().__init__(parent, layer_name, exclude_above, restore)
-        def depress(s):
-            parent = s.parent
-            parent.untap()
-            if s.restore :
-                parent.create_restore_point(s.idx)
-            if s.exclude_above:
-                parent.exclude_above(s.idx)
-            parent.layer_state[s.layer_name] = True
-            parent.tapped_layer = s.layer_name
 
     def create_restore_point(s, idx):
         """saves layer state above the layer_order[idx]"""
@@ -204,3 +128,79 @@ class Layers :
                 return k
         else :
             return s.layers["default"][idx]
+
+class TOGGLE(LayerFunc):
+    def __init__(s, parent, layer_name, exclude_above=True, restore = False):
+        super().__init__(parent, layer_name, exclude_above, restore)
+    def press(s):
+        parent = s.parent
+        state = parent.layer_state[s.layer_name]
+        if s.restore :
+            if not state :
+                parent.create_restore_point(s.idx)
+            else :
+                parent.restore()
+        if s.exclude_above and not state:
+            parent.exclude_above(s.idx)
+        parent.layer_state[s.layer_name] = not(parent.layer_state[s.layer_name])
+
+class MOMENTARY(LayerFunc):
+    def __init__(s, parent, layer_name, exclude_above=True, restore = True):
+        super().__init__(parent, layer_name, exclude_above, restore)
+    def press(s):
+        parent = s.parent
+        if s.restore :
+            parent.create_restore_point(s.idx)
+        if s.exclude_above :
+            parent.exclude_above(s.idx)
+        parent.layer_state[s.layer_name] = True
+    def depress(s, time_pressed=None):
+        parent = s.parent
+        if s.restore:
+            parent.restore()
+        parent.layer_state[s.layer_name] = False
+
+class MOTO(LayerFunc):
+    def __init__(s, parent, layer_name, exclude_above=True, restore = True, timing=0.12):
+        super().__init__(parent, layer_name, exclude_above, restore)
+        s.TIMING_MOTO = timing
+        s.pressed_at = None
+    def beyond_timing(s):
+        if s.pressed_at :
+            return (time.time() - s.pressed_at) > s.TIMING_MOTO
+    def press(s):
+        parent = s.parent
+        state = parent.layer_state[s.layer_name]
+        if not state :
+            if s.restore :
+                parent.create_restore_point(s.idx)
+            if s.exclude_above :
+                parent.exclude_above(s.idx)
+            s.pressed_at = time.time()
+            parent.layer_state[s.layer_name] = True
+        else :
+            if s.pressed_at :
+                s.pressed_at = None
+            if s.restore :
+                parent.restore()
+            parent.layer_state[s.layer_name] = False
+    def depress(s):
+        parent = s.parent
+        if s.pressed_at and s.beyond_timing() :
+            if s.restore:
+                parent.restore()
+            parent.layer_state[s.layer_name] = False
+            s.pressed_at = None
+
+class TAP(LayerFunc):
+    def __init__(s, parent, layer_name, exclude_above=True, restore = True):
+        super().__init__(parent, layer_name, exclude_above, restore)
+    def depress(s):
+        parent = s.parent
+        parent.untap()
+        if s.restore :
+            parent.create_restore_point(s.idx)
+        if s.exclude_above:
+            parent.exclude_above(s.idx)
+        parent.layer_state[s.layer_name] = True
+        parent.tapped_layer = s.layer_name
