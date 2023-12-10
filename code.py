@@ -105,7 +105,7 @@ layout = Layers((15,5))
 
 # let's create the key functions that allows the switching to other layers
 KPAD = layout.MOTO("keypad", restore=False)
-NAV = layout.MOKEY("navigation", _.SPACE,  restore=False)
+NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.08)
 KRAK = layout.TOGGLE("kraken", restore=False)
 
 layout.set_default_layer((
