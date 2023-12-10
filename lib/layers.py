@@ -226,6 +226,7 @@ class MOKEY(LayerFunc):
     def beyond_timing(s):
         if s.pressed_at :
             return (time.time() - s.pressed_at) > s.TIMING_MOTO
+
     def press(s):
         parent = s.parent
         if s.restore :
