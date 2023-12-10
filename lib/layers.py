@@ -36,6 +36,7 @@ class Layers :
         s.TOGGLE = s._class_dec(TOGGLE)
         s.MOMENTARY = s._class_dec(MOMENTARY)
         s.MOTO = s._class_dec(MOTO)
+        s.MOKEY = s._class_dec(MOKEY)
         s.TAP = s._class_dec(TAP)
 
     def _class_dec(s, cls):
