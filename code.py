@@ -161,7 +161,6 @@ def main_loop(layout, matrix):
     ble_keyboard = Keyboard(hid.devices)
 
     #(deprecated ?) old_state = (1<<matrix.length)-1
-    press_layers = (Layers.TOGGLE, Layers.MOMENTARY, Layers.MOTO, Layers.TAP)
     print("success")
     while 1:
         # ...
