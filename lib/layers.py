@@ -164,6 +164,7 @@ class MOTO(LayerFunc):
         super().__init__(parent, layer_name, exclude_above, restore)
         s.TIMING_MOTO = timing
         s.pressed_at = None
+
     def beyond_timing(s):
         if s.pressed_at :
             return (time.time() - s.pressed_at) > s.TIMING_MOTO
