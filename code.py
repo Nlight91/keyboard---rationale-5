@@ -104,53 +104,43 @@ matrix = Kbd_Matrix(
 layout = Layers((15,5))
 
 # let's create the key functions that allows the switching to other layers
-FKEYS = layout.MOTO("fkeys")
 KPAD = layout.MOTO("keypad", restore=False)
-NAV = layout.MOTO("navigation", exclude_above=False, restore=False)
+NAV = layout.MOKEY("navigation", _.SPACE,  restore=False)
 KRAK = layout.TOGGLE("kraken", restore=False)
 
 layout.set_default_layer((
-    _.ESC,       _.NUM_1, _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       None,    _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, None,    _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
-    _.L_SHIFT,   None,    _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   None,
-    _.L_CTRL,    FKEYS,   _.WIN,   _.L_ALT, KPAD,    NAV,     None,    _.SPACE, _.R_ALT, _.FORWARD_SLASH, KRAK,     None,            None,        None,        None
-))
-
-layout.add_layer(
-    "fkeys",(
-    _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6,    _.F7,    _.F8,    _.F9,    _.F10,   _.F11,   _.F12,   _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS
+    _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
+    _.TAB,       None,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
+    _.CAPS_LOCK, None,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
+    _.L_SHIFT,   None,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   None,
+    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD,    NAV,     None,    _.SPACE, _.R_ALT, _.FORWARD_SLASH, KRAK,     None,            None,        None,        None
 ))
 
 layout.add_layer(
     "keypad",(
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,     _.TRANS,  _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.KP_MIN, _.KP_7 , _.KP_8 , _.KP_9 , _.KP_MUL,    _.TRANS,  _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.KP_ADD, _.KP_4 , _.KP_5 , _.KP_6 , _.KP_PERIOD, _.KP_DIV, None,    _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.KP_0,   _.KP_1 , _.KP_2 , _.KP_3 , _.TRANS,     None,     _.TRANS, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,     None,     _.TRANS, _.TRANS
+    _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6,    _.F7,     _.F8,        _.F9,    _.F10,   _.F11,       _.F12,    _.TRANS,    _.TRANS,
+    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_MIN, _.KP_7 ,     _.KP_8 , _.KP_9 , None,        None,     _.TRANS,    _.TRANS,
+    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_ADD, _.KP_4 ,     _.KP_5 , _.KP_6 , _.KP_MUL,    None,     None,       _.TRANS,
+    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_DIV, _.KP_1 ,     _.KP_2 , _.KP_3 , None,        None,     _.KP_ENTER, _.TRANS,
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, None,    _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,     None,     _.TRANS,    _.TRANS
 ))
 
 layout.add_layer(
     "navigation",(
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,     _.TRANS,   _.TRANS,     _.TRANS,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.HOME,      _.PAGE_UP, _.PAGE_DOWN, _.END  ,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,      _.DOWN ,   _.UP   ,     _.RIGHT,  _.TRANS, _.TRANS, None,    _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.BACKSPACE, _.TRANS,   _.TRANS,     _.DELETE, _.TRANS, None,    _.TRANS, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS,     _.TRANS,   _.TRANS,     _.TRANS,  _.TRANS, None,    _.TRANS, _.TRANS
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,     _.TRANS,     _.TRANS,     _.TRANS,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.HOME,      _.PAGE_DOWN, _.PAGE_UP,   _.END  ,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,      _.DOWN ,     _.UP   ,     _.RIGHT,  _.TRANS, _.TRANS, None,    _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.BACKSPACE, _.TRANS,     _.TRANS,     _.DELETE, _.TRANS, None,    _.TRANS, _.TRANS,
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS,     _.TRANS,     _.TRANS,     _.TRANS,  _.TRANS, None,    _.TRANS, _.TRANS
 ))
 
 layout.add_layer(
     "kraken",(
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,  _.TRANS, _.TRANS,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,  _.TRANS, _.TRANS,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,  _.TRANS,    None,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.KP_MIN, _.TRANS,    _.UP, _.KP_ADD,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,   _.TRANS,  _.DOWN, _.RIGHT
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS, _.TRANS,  _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS, _.TRANS,  _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS,    None,  _.TRANS,
+    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.PAGE_UP, _.TRANS,    _.UP,  _.PAGE_DOWN,
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,    _.TRANS,  _.DOWN,  _.RIGHT
 ))
 
 del FKEYS, KPAD, NAV
