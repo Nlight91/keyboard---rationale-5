@@ -182,9 +182,14 @@ def main_loop(layout, matrix):
             for key in (layout[idx] for idx in new_released):
                 if key not in (None, _.TRANS) :
                     if callable(key):
-                        if (type(key) is Layers.MOMENTARY ) or (type(key) is Layers.MOTO and key.beyond_timing()) :
+                        if (type(key) is Layers.MOMENTARY ) or \
+                            (type(key) is Layers.MOTO and key.beyond_timing()) or \
+                            (type(key) is Layers.MOKEY and key.beyond_timing()):
                             keys.extend(layout[idx] for idx in old_pressed)
                             repress = True
+                        elif (type(key) is Layers.MOKEY and not key.beyond_timing()):
+                            ble_keyboard.press(key.key)
+                            keys.append(key.key)
                         layers.append(key.depress)
                     elif type(key) is int:
                         keys.append(key)
