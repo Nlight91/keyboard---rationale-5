@@ -37,6 +37,7 @@ class Layers :
         s.MOMENTARY = s._class_dec(MOMENTARY)
         s.MOTO = s._class_dec(MOTO)
         s.MOKEY = s._class_dec(MOKEY)
+        s.MODKEY = s._class_dec(MODKEY)
         s.TAP = s._class_dec(TAP)
 
     def _class_dec(s, cls):
@@ -243,3 +244,26 @@ class MOKEY(LayerFunc):
             parent.restore()
         parent.layer_state[s.layer_name] = False
         s.pressed_at = None
+
+class MODKEY(LayerFunc):
+    """MODKEY is a key function that is exactly like MOKEY, but activates no layer.
+    instead, it holds one modifier scancode, and one regular key scancode.
+    Just like with MOKEY, it is up to the user to handle the logic, this here
+    only provides a timer function and scancode values"""
+
+    def __init__(s, parent, mod_scancode, key_scancode, exclude_above=True, restore = True, timing=0.12):
+        super().__init__(parent, "", exclude_above, restore)
+        s.TIMING_MOTO = timing
+        s.pressed_at = None
+        s.key = key_scancode
+        s.mod = s.mod_scancode
+    
+    def beyond_timing(s):
+        if s.pressed_at : 
+            return (time.time() - s.pressed_at) > s.TIMING_MOTO
+    
+    def press(s):
+        s.pressed_at = time.time()
+    
+    def depress(s):
+        s.pressed_ad = None
