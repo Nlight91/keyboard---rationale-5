@@ -102,6 +102,7 @@ matrix = Kbd_Matrix(
 ) #TODO : set row and col pins
 layout = Layers((15,5))
 
+# let's create the key functions that allows the switching to other layers
 FKEYS = layout.MOTO("fkeys")
 KPAD = layout.MOTO("keypad", restore=False)
 NAV = layout.MOTO("navigation", exclude_above=False, restore=False)
