@@ -204,3 +204,40 @@ class TAP(LayerFunc):
             parent.exclude_above(s.idx)
         parent.layer_state[s.layer_name] = True
         parent.tapped_layer = s.layer_name
+
+class MOKEY(LayerFunc):
+    """MOKEY is a key function that acts like the MOMENTARY key function. The
+    difference is that when created a keycode is given to it, which is intended
+    to be requested by main program when the keyfunction is just tapped.
+    To that end, the minimum time the key should be pressed to not be considered
+    tapped is set by the user at creation with the argument 'timing', which
+    defaults to 0.12
+    
+    NOTE : by itself, the key function acts just as a MOMENTARY key function.
+    The user is responsible for using the the 'beyond_timing' method and getting
+    the 'key' attribute."""
+
+    def __init__(s, parent, layer_name, key, exclude_above=True, restore = True, timing=0.12):
+        super().__init__(parent, layer_name, exclude_above, restore)
+        s.TIMING_MOTO = timing
+        s.pressed_at = None
+        s.key = key
+
+    def beyond_timing(s):
+        if s.pressed_at :
+            return (time.time() - s.pressed_at) > s.TIMING_MOTO
+    def press(s):
+        parent = s.parent
+        if s.restore :
+            parent.create_restore_point(s.idx)
+        if s.exclude_above :
+            parent.exclude_above(s.idx)
+        s.pressed_at = time.time()
+        parent.layer_state[s.layer_name] = True
+            
+    def depress(s):
+        parent = s.parent
+        if s.restore:
+            parent.restore()
+        parent.layer_state[s.layer_name] = False
+        s.pressed_at = None
