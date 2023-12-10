@@ -183,7 +183,7 @@ def main_loop(layout, matrix):
             repress = False
             for key in (layout[idx] for idx in new_released):
                 if key not in (None, _.TRANS) :
-                    if callable(key):
+                    if callable(key): # if key function
                         if (type(key) is lyrs.MOMENTARY ) or \
                             (type(key) is lyrs.MOTO and key.beyond_timing()) or \
                             (type(key) is lyrs.MOKEY and key.beyond_timing()):
