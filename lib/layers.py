@@ -24,11 +24,10 @@ class Layers :
 
     this class is intended to handle and manage several layers of keymapping.
     """
-    def __init__(s, size, timing_moto=0.2):
+    def __init__(s, size ):
         assert isinstance(size, tuple)
         assert len(size)==2
         s.matrix_size = size
-        s.timing_moto = timing_moto
         s.tapped_layer = None
         s.layers = {"default":[]}
         s.layer_order = []
