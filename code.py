@@ -90,27 +90,27 @@ class MainLogic:
         layers = []
         repress = False
         for key in (layout[idx] for idx in new_released):
-            if key not in (None, _.TRANS) :
-                if callable(key): # if key function
-                    if (type(key) is lyr.MOMENTARY ) or \
-                        (type(key) is lyr.MOTO and key.beyond_timing()) or \
-                        (type(key) is lyr.MOKEY and key.beyond_timing()):
+            if key in (None, _.TRANS) : continue
+            if callable(key): # if key function
+                if (type(key) is lyr.MOMENTARY ) or \
+                    (type(key) is lyr.MOTO and key.beyond_timing()) or \
+                    (type(key) is lyr.MOKEY and key.beyond_timing()) :
                         keys.extend(layout[idx] for idx in old_pressed)
                         repress = True
-                    elif (type(key) is lyr.MOKEY and not key.beyond_timing()):
-                        release_old_pressed_keys(old_pressed)
+                elif (type(key) is lyr.MOKEY and not key.beyond_timing()):
+                    release_old_pressed_keys(old_pressed)
+                    ble_keyboard.press(key.key)
+                    keys.append(key.key)
+                elif (type(key) is lyr.MODKEY):
+                    if not key.beyond_timing():
+                        ble_keyboard.release(key.mod)
                         ble_keyboard.press(key.key)
                         keys.append(key.key)
-                    elif (type(key) is lyr.MODKEY):
-                        if not key.beyond_timing():
-                            ble_keyboard.release(key.mod)
-                            ble_keyboard.press(key.key)
-                            keys.append(key.key)
-                        else :
-                            keys.append(key.mod)
-                    layers.append(key.depress)
-                elif type(key) is int:
-                    keys.append(key)
+                    else :
+                        keys.append(key.mod)
+                layers.append(key.depress)
+            elif type(key) is int:
+                keys.append(key)
         ble_keyboard.release(*keys)
         keys = []
         for key in (layout[idx] for idx in new_pressed):
