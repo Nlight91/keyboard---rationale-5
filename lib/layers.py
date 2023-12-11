@@ -256,7 +256,7 @@ class MODKEY(LayerFunc):
         s.TIMING_MOTO = timing
         s.pressed_at = None
         s.key = key_scancode
-        s.mod = s.mod_scancode
+        s.mod = mod_scancode
     
     def beyond_timing(s):
         if s.pressed_at : 
