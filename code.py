@@ -161,6 +161,9 @@ def main_loop(layout, matrix):
     advertising = True
     ble_keyboard = Keyboard(hid.devices)
 
+    def release_old_pressed_keys(old_pressed):
+        ble_keyboard.release(*(layout[idx] for idx in old_pressed))
+
     #(deprecated ?) old_state = (1<<matrix.length)-1
     print("success")
     while 1:
@@ -201,7 +204,7 @@ def main_loop(layout, matrix):
                             keys.append(key.mod)
                         elif not repress:
                             repress = True
-                            ble_keyboard.release(*(layout[idx] for idx in old_pressed))
+                            release_old_pressed_keys(old_pressed)
                         layers.append(key.press)
                     elif type(key) is int:
                         if layout.tapped() :
