@@ -86,9 +86,12 @@ class MainLogic:
         ble_keyboard = s.ble_keyboard
         release_old_key_pressed = s.release_old_key_pressed
         new_released, new_pressed, old_pressed = s.matrix.get_report()
-        keys = []
+
         layers = []
-        repress = False
+        repress = False #sometimes you need some keys to be pressed again
+
+        # release logic
+        keys = []
         for key in (layout[idx] for idx in new_released):
             if key in (None, _.TRANS) : continue
             if callable(key): # if key function
@@ -112,6 +115,8 @@ class MainLogic:
             elif type(key) is int:
                 keys.append(key)
         ble_keyboard.release(*keys)
+
+        # press logic
         keys = []
         for key in (layout[idx] for idx in new_pressed):
             if key not in (None, _.TRANS) :
@@ -131,6 +136,7 @@ class MainLogic:
                         layout.untap()
                     else :
                         keys.append(key)
+
         for func in layers : func()
         if repress : keys.extend(layout[idx] for idx in old_pressed)
         ble_keyboard.press(*keys)
