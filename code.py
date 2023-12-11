@@ -15,6 +15,7 @@ from matrix import Kbd_Matrix
 
 import gc
 
+POLLING_RATE = 500 # expressed in hz
 
 matrix = Kbd_Matrix(
     ("D13", "D12", "D11", "D10", "D9"),
@@ -70,6 +71,7 @@ def main_loop(layout, matrix):
     # NOTE : there may be a problem when release_all() is triggered :
     # indeed, while keys are realease to the host,
     # these changes are not reflected in the matrix state.
+    poll_rate_interval = 1. / POLLING_RATE
     hid = HIDService()
     advertisement = ProvideServicesAdvertisement(hid)
     advertisement.appearance = 961
@@ -145,7 +147,7 @@ def main_loop(layout, matrix):
         elif not ble.connected and not advertising :
             ble.start_advertising(advertisement)
             advertising = True
-        time.sleep(0.002)
+        time.sleep(poll_rate_interval) 
 
 if __name__ == '__main__':
     main_loop(layout, matrix)
