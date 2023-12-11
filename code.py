@@ -46,7 +46,7 @@ layout.set_default_layer((
     _.TAB,       None,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
     _.CAPS_LOCK, None,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
     _.L_SHIFT,   None,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   KPAD_TO,
-    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD_MO, NAV,     None,    GR_SPACE, _.R_ALT, _.FORWARD_SLASH, KRAK,     None,            None,        None,        None
+    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD_MO, NAV,     None,    _.SPACE,  _.R_ALT, _.FORWARD_SLASH, KRAK,     None,            None,        None,        None
 ))
 
 layout.add_layer(
