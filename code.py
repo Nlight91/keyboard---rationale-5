@@ -84,7 +84,7 @@ class MainLogic:
     
     def __call__(s):
         ble_keyboard = s.ble_keyboard
-        release_old_key_pressed = s.release_old_key_pressed
+        release_old_pressed_keys = s.release_old_pressed_keys
         new_released, new_pressed, old_pressed = s.matrix.get_report()
 
         layers = []
@@ -142,7 +142,7 @@ class MainLogic:
         ble_keyboard.press(*keys)
         gc.collect()
     
-    def release_old_pressed_key(s, old_pressed):
+    def release_old_pressed_keys(s, old_pressed):
         s.ble_keyboard.release(*(layout[idx] for idx in old_pressed))
 
 
