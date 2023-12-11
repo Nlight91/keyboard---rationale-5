@@ -87,7 +87,7 @@ class Kbd_Matrix:
                 npr_idx.append(x)
             elif filt & ppr:
                 ppr_idx.append(x)
-            mask = max - ( ( 1 << ( x + 1 ) ) - 1 )
+            mask = max ^ ( ( 1 << ( x + 1 ) ) - 1 )
             nre, npr, ppr = mask & nre, mask & npr, mask & ppr
             if not any((nre,npr, ppr)):
                 break
