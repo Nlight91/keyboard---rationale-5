@@ -131,6 +131,8 @@ class Layers :
             return s.layers["default"][idx]
 
 class TOGGLE(LayerFunc):
+    """TOGGLE is a key function that as the name suggest turns on or off a
+    layer"""
     def __init__(s, parent, layer_name, exclude_above=True, restore = False):
         super().__init__(parent, layer_name, exclude_above, restore)
     def press(s):
@@ -146,6 +148,8 @@ class TOGGLE(LayerFunc):
         parent.layer_state[s.layer_name] = not(parent.layer_state[s.layer_name])
 
 class MOMENTARY(LayerFunc):
+    """MOMENTARY is a key function that switches to a given layer as long as the
+    key is pressed, and then turns if off as soon as it is released"""
     def __init__(s, parent, layer_name, exclude_above=True, restore = True):
         super().__init__(parent, layer_name, exclude_above, restore)
     def press(s):
@@ -162,6 +166,11 @@ class MOMENTARY(LayerFunc):
         parent.layer_state[s.layer_name] = False
 
 class MOTO(LayerFunc):
+    """MOTO is a key function that combines the MOMENTARY and TOGGLE functions :
+        - if the key is tapped : the layer is toggled on or off.
+        - if the key is pressed for a minimum of time (0.12s by default) : the 
+          key acts as MOMENTARY. The layer will be switched off when the key is
+          released, wheter the layer was previously toggled or not."""
     def __init__(s, parent, layer_name, exclude_above=True, restore = True, timing=0.12):
         super().__init__(parent, layer_name, exclude_above, restore)
         s.TIMING_MOTO = timing
@@ -195,6 +204,8 @@ class MOTO(LayerFunc):
             s.pressed_at = None
 
 class TAP(LayerFunc):
+    # To Be Honest, I can't remember if the function was finnished or not
+    # to be checked
     def __init__(s, parent, layer_name, exclude_above=True, restore = True):
         super().__init__(parent, layer_name, exclude_above, restore)
     def depress(s):
