@@ -145,7 +145,6 @@ layout.add_layer(
     _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,    _.TRANS,  _.DOWN,  _.RIGHT
 ))
 
-del FKEYS, KPAD, NAV
 
 def main_loop(layout, matrix):
     # NOTE : there may be a problem when release_all() is triggered :
