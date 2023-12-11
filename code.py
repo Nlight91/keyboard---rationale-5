@@ -17,20 +17,30 @@ import gc
 
 POLLING_RATE = 500 # expressed in hz
 
+# Let's set up the matrix of our board, reflecting the physical layout we made
 matrix = Kbd_Matrix(
     ("D13", "D12", "D11", "D10", "D9"),
     ("A0", "A1", "A2", "A3", "A4", "A5", "SCK", "MOSI", "MISO", "D2", "RX", "TX", "SDA", "SCL", "D7" ),
     pullup = False
-) #TODO : set row and col pins
+) 
+
+# Let's create the object that will hold all the layers with key scancodes
 layout = Layers((15,5))
 
 # let's create the key functions that allows the switching to other layers
 KPAD_MO = layout.MOMENTARY("keypad", restore=False)
 KPAD_TO = layout.TOGGLE("keypad", restore=False)
 NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.08)
-GR_SPACE = layout.MODKEY(_.R_ALT, _.SPACE, timing=0.08)
 KRAK = layout.TOGGLE("kraken", restore=False)
+# Here is an example usage of MODKEY :
+#
+#    GR_SPACE = layout.MODKEY(_.R_ALT, _.SPACE, timing=0.08)
+#
+# as you can see for this function, there is no need for layer name, because
+# this function switches to none, however the first value must be the scancode
+# of a modifier
 
+# here we create the layers with the key scancodes or internal key special functions like switching layer
 layout.set_default_layer((
     _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7,  _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
     _.TAB,       None,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
@@ -68,10 +78,9 @@ layout.add_layer(
 
 
 def main_loop(layout, matrix):
-    # NOTE : there may be a problem when release_all() is triggered :
-    # indeed, while keys are realease to the host,
-    # these changes are not reflected in the matrix state.
     poll_rate_interval = 1. / POLLING_RATE
+
+    # setting up of bluetooth
     hid = HIDService()
     advertisement = ProvideServicesAdvertisement(hid)
     advertisement.appearance = 961
@@ -86,8 +95,9 @@ def main_loop(layout, matrix):
     def release_old_pressed_keys(old_pressed):
         ble_keyboard.release(*(layout[idx] for idx in old_pressed))
 
-    #(deprecated ?) old_state = (1<<matrix.length)-1
     print("success")
+
+    # main logic
     while 1:
         # ...
         if ble.connected :
