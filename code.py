@@ -36,10 +36,6 @@ class Kbd_Matrix:
         return pin
 
     def bnot(s,num):
-        #note : it's been a while since I made it. Have a hard time figuring out
-        # the exact purpose of it. However, if it ever does make problems, I suggest
-        # replacing the sub operator with a xor operator, as there is no chance
-        # it does return a negative result.
         return s._not ^ num
 
     def scan(s):
