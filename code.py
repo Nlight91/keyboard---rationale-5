@@ -132,8 +132,7 @@ class MainLogic:
                     else :
                         keys.append(key)
         for func in layers : func()
-        if repress :
-            keys.extend(layout[idx] for idx in old_pressed)
+        if repress : keys.extend(layout[idx] for idx in old_pressed)
         ble_keyboard.press(*keys)
         gc.collect()
     
