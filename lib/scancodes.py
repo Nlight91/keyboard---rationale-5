@@ -2,6 +2,8 @@ class TRANS : pass
 
 class Scancodes :
 
+    NO = None
+
     A = 0x0004 # Keyboard a and A
     # win : True
 
