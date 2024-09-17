@@ -1,13 +1,29 @@
+"""This module implement the concept of layers.
+Just as layers in Photoshop, a layer with a higher index takes precedence over
+layers with a lower index. For example the layer at index 0 (default layer)
+will always get covered by other layers.
+"""
 from scancodes import TRANS
 import time
 
 class LayerFunc:
+    """LayerFunc subclasses of this class are the proper layers""" 
     @property
     def idx(s):
         if s._idx is None :
             s._idx = s.parent.layer_order.index(s.layer_name)
         return s._idx
-    def __init__(s, parent, layer_name, exclude_above=True, restore = False):
+    def __init__(s, parent:Layers, layer_name:str, exclude_above=True, restore = False):
+        """LayerFunc.__init__(parent, layer_name, exclude_above, retore)
+        
+        parent : <Layer> Layer instance
+        layer_name : <str> layer name
+        exclude_above : <bool> defaults to True
+            if this flag is on, layers above this one get deactivated
+        retore : <bool> defaults to False
+            flag telling if layer configuration above this layer idx should be
+            save/restored
+        """
         s.parent = parent
         s.layer_name = layer_name
         s.exclude_above = exclude_above
@@ -23,6 +39,7 @@ class Layers :
     """Layer Manager
 
     this class is intended to handle and manage several layers of keymapping.
+    This is the layer manager if you will. 
     """
     def __init__(s, size ):
         assert isinstance(size, tuple)
