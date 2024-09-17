@@ -30,8 +30,8 @@ layout = Layers((15,5))
 # let's create the key functions that allows the switching to other layers
 KPAD_MO = layout.MOMENTARY("keypad", restore=False)
 KPAD_TO = layout.TOGGLE("keypad", restore=False)
-NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
-KRAK = layout.TOGGLE("kraken", restore=False)
+#NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
+NAV = layout.MOMENTARY("navigation", restore=False)
 # Here is an example usage of MODKEY :
 #
 #    GR_SPACE = layout.MODKEY(_.R_ALT, _.SPACE, timing=0.08)
