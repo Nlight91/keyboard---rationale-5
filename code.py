@@ -32,6 +32,7 @@ KPAD_MO = layout.MOMENTARY("keypad", restore=False)
 KPAD_TO = layout.TOGGLE("keypad", restore=False)
 #NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
 NAV = layout.MOMENTARY("navigation", restore=False)
+GAME0 = layout.TOGGLE("game0", restore=False)
 # Here is an example usage of MODKEY :
 #
 #    GR_SPACE = layout.MODKEY(_.R_ALT, _.SPACE, timing=0.08)
@@ -68,12 +69,12 @@ layout.add_layer(
 ))
 
 layout.add_layer(
-    "kraken",(
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS, _.TRANS,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS, _.TRANS,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,   _.TRANS,    None,  _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.PAGE_UP, _.TRANS,    _.UP,  _.PAGE_DOWN,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,    _.TRANS,  _.DOWN,  _.RIGHT
+    "game0", (
+    _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7,  _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
+    _.TAB,       _.NO,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
+    _.CAPS_LOCK, _.NO,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
+    _.L_SHIFT,   _.NO,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   KPAD_TO,
+    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, _.H,     _.SPACE, None,    _.P,      _.R_ALT, _.FORWARD_SLASH, None,     None,            None,        None,        GAME0
 ))
 
 
