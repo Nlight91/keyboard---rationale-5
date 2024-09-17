@@ -43,28 +43,28 @@ NAV = layout.MOMENTARY("navigation", restore=False)
 # here we create the layers with the key scancodes or internal key special functions like switching layer
 layout.set_default_layer((
     _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7,  _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       None,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, None,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
-    _.L_SHIFT,   None,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   KPAD_TO,
-    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD_MO, NAV,     None,    _.SPACE,  _.R_ALT, _.FORWARD_SLASH, KRAK,     None,            None,        None,        None
+    _.TAB,       _.NO,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
+    _.CAPS_LOCK, _.NO,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NO,        _.ENTER,
+    _.L_SHIFT,   _.NO,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NO,        _.R_SHIFT,   KPAD_TO,
+    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NO,    _.SPACE, _.R_ALT, _.FORWARD_SLASH,  None,     _.L_ALT,         _.NO,        _.R_CTRL,    GAME0
 ))
 
 layout.add_layer(
     "keypad",(
     _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6,    _.F7,     _.F8,        _.F9,    _.F10,   _.F11,       _.F12,    _.TRANS,    _.TRANS,
-    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_MIN, _.KP_7 ,     _.KP_8 , _.KP_9 , None,        None,     _.TRANS,    _.TRANS,
-    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_ADD, _.KP_4 ,     _.KP_5 , _.KP_6 , _.KP_MUL,    None,     None,       _.TRANS,
-    _.TRANS, None,    None,    None,    None,    None,    None,    _.KP_DIV, _.KP_1 ,     _.KP_2 , _.KP_3 , None,        None,     _.KP_ENTER, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, None,    _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,     None,     _.TRANS,    _.TRANS
+    _.TRANS, _.NO,    _.F5,    _.F6,    _.F7,    _.F8,    None,    _.NUM_5,  _.KP_7 ,     _.KP_8 , _.KP_9 , _.MINUS,     None,     _.TRANS,    _.TRANS,
+    _.TRANS, _.NO,    _.F9,    _.F10,   _.F11,   _.F12,   None,    _.KP_ADD, _.KP_4 ,     _.KP_5 , _.KP_6 , _.KP_MIN,    None,     _.NO,       _.TRANS,
+    _.TRANS, _.NO,    None,    None,    None,    None,    None,    _.KP_DIV, _.KP_1 ,     _.KP_2 , _.KP_3 , _.KP_MUL,    _.NO,     _.KP_ENTER, _.TRANS,
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, None,    _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,     _.NO,     _.TRANS,    _.TRANS
 ))
 
 layout.add_layer(
     "navigation",(
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS,     _.TRANS,     _.TRANS,     _.TRANS,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.HOME,      _.PAGE_DOWN, _.PAGE_UP,   _.END  ,  _.TRANS, _.TRANS, _.TRANS, _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.LEFT,      _.DOWN ,     _.UP   ,     _.RIGHT,  _.TRANS, _.TRANS, None,    _.TRANS,
-    _.TRANS, None,    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.BACKSPACE, _.TRANS,     _.TRANS,     _.DELETE, _.TRANS, None,    _.TRANS, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, None,    _.TRANS,     _.TRANS,     _.TRANS,     _.TRANS,  _.TRANS, None,    _.TRANS, _.TRANS
+    None, None, None, None, None,        None,     None,    None,    None,        None,      None,     None,    None,    None,    None,   
+    None, _.NO, None, None, None,        None,     None,    None,    _.PAGE_DOWN, _.PAGE_UP, None,     None,    None,    None,    None,   
+    None, _.NO, None, None, _.BACKSPACE, _.DELETE, None,    _.LEFT,  _.DOWN ,     _.UP   ,   _.RIGHT,  None,    None,    _.NO,    None,   
+    None, _.NO, None, None, None,        None,     None,    None,    _.HOME,      _.END,     None,     None,    _.NO,    None,    None,   
+    None, None, None, None, None,        _.TRANS,  None,    None,    None,        None,      None,     None,    _.NO,    None,    None,   
 ))
 
 layout.add_layer(
