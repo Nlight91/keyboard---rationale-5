@@ -30,7 +30,7 @@ layout = Layers((15,5))
 # let's create the key functions that allows the switching to other layers
 KPAD_MO = layout.MOMENTARY("keypad", restore=False)
 KPAD_TO = layout.TOGGLE("keypad", restore=False)
-NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.08)
+NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
 KRAK = layout.TOGGLE("kraken", restore=False)
 # Here is an example usage of MODKEY :
 #
@@ -163,16 +163,23 @@ def main_loop(layout, matrix):
     print("success")
 
     main_logic = MainLogic(matrix, ble_keyboard)
+    STATUS_CONNECTED = False 
 
     # main logic
     while 1:
         if ble.connected :
-            advertising = False
-            main_logic()
+            if not STATUS_CONNECTED :
+                print("Connected, sleep 2 sec")
+                time.sleep(2)
+                advertising = False
+                STATUS_CONNECTED = True
+            while ble.connected :
+                main_logic()
+                time.sleep(poll_rate_interval)
         elif not ble.connected and not advertising :
             ble.start_advertising(advertisement)
             advertising = True
-        time.sleep(poll_rate_interval) 
+        time.sleep(0.5) 
 
 if __name__ == '__main__':
     main_loop(layout, matrix)
