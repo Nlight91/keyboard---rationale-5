@@ -61,11 +61,11 @@ layout.add_layer(
 
 layout.add_layer(
     "navigation",(
-    None, None, None, None, None,        None,     None,    None,    None,        None,      None,     None,    None,    None,    None,   
-    None, _.NO, None, None, None,        None,     None,    None,    _.PAGE_DOWN, _.PAGE_UP, None,     None,    None,    None,    None,   
-    None, _.NO, None, None, _.BACKSPACE, _.DELETE, None,    _.LEFT,  _.DOWN ,     _.UP   ,   _.RIGHT,  None,    None,    _.NO,    None,   
-    None, _.NO, None, None, None,        None,     None,    None,    _.HOME,      _.END,     None,     None,    _.NO,    None,    None,   
-    None, None, None, None, None,        _.TRANS,  None,    None,    None,        None,      None,     None,    _.NO,    None,    None,   
+    _.TRANS, None, None, None, None,        None,     None,    None,    None,        None,      None,     None,    None,    None,    None,   
+    _.TRANS, _.NO, None, None, None,        None,     None,    None,    _.PAGE_DOWN, _.PAGE_UP, None,     None,    None,    None,    None,   
+    _.TRANS, _.NO, None, None, _.BACKSPACE, _.DELETE, None,    _.LEFT,  _.DOWN ,     _.UP   ,   _.RIGHT,  None,    None,    _.NO,    None,   
+    _.TRANS, _.NO, None, None, None,        None,     None,    None,    _.HOME,      _.END,     None,     None,    _.NO,    None,    None,   
+    _.TRANS, None, None, None, None,        _.TRANS,  None,    None,    None,        None,      None,     None,    _.NO,    None,    None,   
 ))
 
 layout.add_layer(
