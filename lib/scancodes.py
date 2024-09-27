@@ -337,78 +337,38 @@ class Scancodes :
     # win : False
 
     KEYBOARD_INT1 = KEYBOARD_RO = 0x0087 # Keyboard INT1 Ro (Japan: \)(Brazil : /)
-    # win : True
-
     KEYBOARD_INT2 = KEYBOARD_KANA = 0x0088 # Keyboard INT2 Kana (Japan)
-    # win : True
-
     KEYBOARD_INT3 = KEYBOARD_YEN = 0x0089 # Keyboard INT3 Yen (Japan)
-    # win : True
-
     KEYBOARD_INT4 = KEYBOARD_HENKAN  = 0x008a # Keyboard INT4<br />Henkan (Conversion) (Japan)
-    # win : True
-
     KEYBOARD_INT5 = KEYBOARD_MUHENKAN = 0x008b # Keyboard INT5<br />Muhenkan (Non-conversion) (Japan)
     KEYBOARD_INT6 = KEYBOARD_KPJPCOMMA = 0x008c # Keyboard INT6<br />PC98 Keypad comma
     KEYBOARD_INT7 = 0x008d # Keyboard INT7<br />PC98 Toggle single-byte/double-byte mode
-    # win : False
-
     KEYBOARD_INT8 = 0x008e # Keyboard INT8
-    # win : False
-
     KEYBOARD_INT9 = 0x008f # Keyboard INT9
-    # win : False
 
     KEYBOARD_LANG1 = KEYBOARD_HANGUL = 0x0090 # Keyboard LANG1<br />Hangul/English toggle (Korean)
-    # win : False
-
     KEYBOARD_LANG2 = KEYBOARD_HANJA = 0x0091 # Keyboard LANG2<br />Hanja conversion (Korean)
-    # win : False
-
     KEYBOARD_LANG3 = 0x0092 # Keyboard LANG3<br />PC98 Katakana
-    # win : False
-
     KEYBOARD_LANG4 = 0x0093 # Keyboard LANG4<br />PC98 Hiragana
-    # win : False
-
     KEYBOARD_LANG5 = 0x0094 # Keyboard LANG5<br />PC98 "Kaku": Hankaku/Zenkaku ("Full-size"/"Half-size"/"Kanji") when not on Keyboard Tilde key (Japanese)
-    # win : False
-
     KEYBOARD_LANG6 = 0x0095 # Keyboard LANG6<br />PC98 Furigana (Hiragana as pronunciation-help above Kanji)
-    # win : False
-
     KEYBOARD_LANG7 = 0x0096 # Keyboard LANG7
-    # win : False
-
     KEYBOARD_LANG8 = 0x0097 # Keyboard LANG8
-    # win : False
-
     KEYBOARD_LANG9 = 0x0098 # Keyboard LANG9
+
     KP_LPAREN = 0x00b6 # Keypad left parenthesis
     KP_RPAREN = 0x00b7 # Keypad right parenthesis
 
     LEFT_CONTROL = L_CTRL = CONTROL= 0x00e0 # Keyboard Left Control
-    # win : True
-
     LEFT_SHIFT = L_SHIFT = SHIFT = 0x00e1 # Keyboard Left Shift
-    # win : True
-
     LEFT_ALT = L_ALT = ALT = 0x00e2 # Keyboard Left Alt
-    # win : True
-
     LEFT_GUI = L_GUI = GUI = WINDOWS = WIN = COMMAND = CMD = 0x00e3 # Keyboard Left GUI
-    # win : False
-
     RIGHT_CONTROL = R_CTRL = 0x00e4 # Keyboard Right Control
-    # win : True
-
     RIGHT_SHIFT = R_SHIFT = 0x00e5 # Keyboard Right Shift
-    # win : True
-
     RIGHT_ALT = R_ALT = 0x00e6 # Keyboard Right Alt
-    # win : True
-
     RIGHT_GUI = R_GUI = R_WIN = RIGHT_COMMAND = R_CMD = 0x00e7 # Keyboard Right GUI
+
+    
     MEDIA_PLAYPAUSE = 0xe8
     MEDIA_VOLUMEUP = 0xed
     MEDIA_VOLUMEDOWN = 0xee
