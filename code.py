@@ -32,6 +32,7 @@ KPAD_MO = layout.MOMENTARY("keypad", restore=False)
 KPAD_TO = layout.TOGGLE("keypad", restore=False)
 #NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
 NAV = layout.MOMENTARY("navigation", restore=False)
+MEDIA = layout.MOMENTARY("media", restore=False)
 GAME0 = layout.TOGGLE("game0", restore=False)
 # Here is an example usage of MODKEY :
 #
@@ -43,11 +44,11 @@ GAME0 = layout.TOGGLE("game0", restore=False)
 
 # here we create the layers with the key scancodes or internal key special functions like switching layer
 layout.set_default_layer((
-    _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7,  _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       _.NO,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NO,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NO,        _.ENTER,
-    _.L_SHIFT,   _.NO,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NO,        _.R_SHIFT,   KPAD_TO,
-    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NO,    _.SPACE, _.R_ALT, _.FORWARD_SLASH,  None,     _.L_ALT,         _.NO,        _.R_CTRL,    GAME0
+    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,   
+    _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
+    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NOKEY,     _.ENTER,    
+    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NOKEY,     _.R_SHIFT,   MEDIA,    
+    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NOKEY, _.SPACE, _.R_ALT, _.FORWARD_SLASH, _._,      _.L_ALT,         _.NOKEY,     _.R_CTRL,    GAME0,      
 ))
 
 layout.add_layer(
@@ -67,6 +68,16 @@ layout.add_layer(
     _.TRANS, _.NO, None, None, None,        None,     None,    None,    _.HOME,      _.END,     None,     None,    _.NO,    None,    None,   
     _.TRANS, None, None, None, None,        _.TRANS,  None,    None,    None,        None,      None,     None,    _.NO,    None,    None,   
 ))
+
+layout.add_layer(
+    "media", (
+    _.TRANS, _._,     _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _.NOKEY,   _._,      
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _.MD_MUTE, _.NOKEY, _.MD_PLAY, _.MEDIA,  
+    _.TRANS, _._,     _._, _._, _._, _.TRANS, _.NOKEY, _._, _._, _._, _._, _.MD_VOLD, _.NOKEY, _.MD_VOLU, _.MD_CALC,
+    )
+)
 
 layout.add_layer(
     "game0", (
