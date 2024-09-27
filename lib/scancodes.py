@@ -384,7 +384,8 @@ class Scancodes :
     # win : False
 
     KEYBOARD_LANG9 = 0x0098 # Keyboard LANG9
-    # win : False
+    KP_LPAREN = 0x00b6 # Keypad left parenthesis
+    KP_RPAREN = 0x00b7 # Keypad right parenthesis
 
     LEFT_CONTROL = L_CTRL = CONTROL= 0x00e0 # Keyboard Left Control
     # win : True
@@ -408,7 +409,11 @@ class Scancodes :
     # win : True
 
     RIGHT_GUI = R_GUI = R_WIN = RIGHT_COMMAND = R_CMD = 0x00e7 # Keyboard Right GUI
-    # win : False
+    MEDIA_PLAYPAUSE = 0xe8
+    MEDIA_VOLUMEUP = 0xed
+    MEDIA_VOLUMEDOWN = 0xee
+    MEDIA_MUTE = 0xef
+    MEDIA_CALC = 0xfb
 
     APP_CALC = 0X0192 # Windows calc
     # win : True
