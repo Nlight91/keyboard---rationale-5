@@ -79,9 +79,10 @@ layout.add_layer(
 
 
 class MainLogic:
-    def __init__(s, matrix, ble_keyboard):
+    def __init__(s, matrix:Kbd_Matrix, ble_keyboard:Keyboard, layers:Layers):
         s.ble_keyboard = ble_keyboard
         s.matrix = matrix
+        s.layers = layers
     
     def __call__(s):
         ble_keyboard = s.ble_keyboard
@@ -93,54 +94,54 @@ class MainLogic:
 
         # release logic
         keys = []
-        for key in (layout[idx] for idx in new_released):
-            if key in (None, _.TRANS) : continue
-            if callable(key): # if key function
-                if (type(key) is lyr.MOMENTARY ) or \
-                    (type(key) is lyr.MOTO and key.beyond_timing()) or \
-                    (type(key) is lyr.MOKEY and key.beyond_timing()) :
-                        keys.extend(layout[idx] for idx in old_pressed)
+        for key in ( s.layers[idx] for idx in new_released ):
+            if key in ( None, _.TRANS ) : continue
+            if callable( key ): # if key function
+                if ( type( key ) is lyr.MOMENTARY ) or \
+                    ( type( key ) is lyr.MOTO and key.beyond_timing()) or \
+                    ( type( key ) is lyr.MOKEY and key.beyond_timing()) :
+                        keys.extend( s.layers[idx] for idx in old_pressed )
                         repress = True
-                elif (type(key) is lyr.MOKEY and not key.beyond_timing()):
-                    release_old_pressed_keys(old_pressed)
-                    ble_keyboard.press(key.key)
-                    keys.append(key.key)
-                elif (type(key) is lyr.MODKEY):
+                elif ( type( key ) is lyr.MOKEY and not key.beyond_timing()):
+                    release_old_pressed_keys( old_pressed )
+                    ble_keyboard.press( key.key )
+                    keys.append( key.key )
+                elif ( type( key ) is lyr.MODKEY ):
                     if not key.beyond_timing():
-                        ble_keyboard.release(key.mod)
-                        ble_keyboard.press(key.key)
-                        keys.append(key.key)
+                        ble_keyboard.release( key.mod )
+                        ble_keyboard.press( key.key )
+                        keys.append( key.key )
                     else :
-                        keys.append(key.mod)
-                layers.append(key.depress)
-            elif type(key) is int:
-                keys.append(key)
-        ble_keyboard.release(*keys)
+                        keys.append( key.mod )
+                layers.append( key.depress )
+            elif type( key ) is int:
+                keys.append( key )
+        ble_keyboard.release(*keys )
 
         # press logic
         keys = []
-        for key in (layout[idx] for idx in new_pressed):
-            if key not in (None, _.TRANS) :
-                if callable(key):
-                    if type(key) is lyr.MODKEY :
-                        keys.append(key.mod)
-                        release_old_pressed_keys(old_pressed)
-                    elif type(key) is lyr.MOKEY:
-                        release_old_pressed_keys(old_pressed)
+        for key in ( s.layers[idx] for idx in new_pressed ):
+            if key not in ( None, _.TRANS ) :
+                if callable( key ):
+                    if type( key ) is lyr.MODKEY :
+                        keys.append( key.mod )
+                        release_old_pressed_keys( old_pressed )
+                    elif type( key ) is lyr.MOKEY:
+                        release_old_pressed_keys( old_pressed )
                     elif not repress:
                         repress = True
-                        release_old_pressed_keys(old_pressed)
-                    layers.append(key.press)
-                elif type(key) is int:
-                    if layout.tapped() :
-                        ble_keyboard.press(key)
-                        layout.untap()
+                        release_old_pressed_keys( old_pressed )
+                    layers.append( key.press )
+                elif type( key ) is int:
+                    if s.layers.tapped() :
+                        ble_keyboard.press( key )
+                        s.layers.untap()
                     else :
-                        keys.append(key)
+                        keys.append( key )
 
         for func in layers : func()
-        if repress : keys.extend(layout[idx] for idx in old_pressed)
-        ble_keyboard.press(*keys)
+        if repress : keys.extend( s.layers[idx] for idx in old_pressed )
+        ble_keyboard.press( *keys )
         gc.collect()
     
     def release_old_pressed_keys(s, old_pressed):
@@ -163,7 +164,7 @@ def main_loop(layout, matrix):
     ble_keyboard = Keyboard(hid.devices)
     print("success")
 
-    main_logic = MainLogic(matrix, ble_keyboard)
+    main_logic = MainLogic(matrix, ble_keyboard, layout)
     STATUS_CONNECTED = False 
 
     # main logic
