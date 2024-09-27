@@ -2,7 +2,9 @@ class TRANS : pass
 
 class Scancodes :
 
-    NO = None
+    NOKEY = 0x0
+    
+    EMPTY = 0x0
 
     A = 0x0004 # Keyboard a and A
     # win : True
