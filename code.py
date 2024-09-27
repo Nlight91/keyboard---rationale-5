@@ -53,20 +53,20 @@ layout.set_default_layer((
 
 layout.add_layer(
     "keypad",(
-    _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6,    _.F7,     _.F8,        _.F9,    _.F10,   _.F11,       _.F12,    _.TRANS,    _.TRANS,
-    _.TRANS, _.NO,    _.F5,    _.F6,    _.F7,    _.F8,    None,    _.NUM_5,  _.KP_7 ,     _.KP_8 , _.KP_9 , _.MINUS,     None,     _.TRANS,    _.TRANS,
-    _.TRANS, _.NO,    _.F9,    _.F10,   _.F11,   _.F12,   None,    _.KP_ADD, _.KP_4 ,     _.KP_5 , _.KP_6 , _.KP_MIN,    None,     _.NO,       _.TRANS,
-    _.TRANS, _.NO,    None,    None,    None,    None,    None,    _.KP_DIV, _.KP_1 ,     _.KP_2 , _.KP_3 , _.KP_MUL,    _.NO,     _.KP_ENTER, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, None,    _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,     _.NO,     _.TRANS,    _.TRANS
+    _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6, _.F7,     _.F8,        _.F9,    _.F10,   _.F11,    _.F12,   _.TRANS,    _.TRANS,
+    _.TRANS, _.NOKEY, _.F5,    _.F6,    _.F7,    _.F8,    _._,  _.NUM_5,  _.KP_7,      _.KP_8,  _.KP_9,  _.MINUS,  _._,     _.TRANS,    _.TRANS,
+    _.TRANS, _.NOKEY, _.F9,    _.F10,   _.F11,   _.F12,   _._,  _.KP_ADD, _.KP_4,      _.KP_5,  _.KP_6,  _.KP_MIN, _._,     _.NOKEY,    _.TRANS,
+    _.TRANS, _.NOKEY, _._,     _._,     _._,     _._,     _._,  _.KP_DIV, _.KP_1,      _.KP_2,  _.KP_3,  _.KP_MUL, _.NOKEY, _.KP_ENTER, _.TRANS,
+    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, _._,  _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,  _.NOKEY, _.TRANS,    _.TRANS,
 ))
 
 layout.add_layer(
     "navigation",(
-    _.TRANS, None, None, None, None,        None,     None,    None,    None,        None,      None,     None,    None,    None,    None,   
-    _.TRANS, _.NO, None, None, None,        None,     None,    None,    _.PAGE_DOWN, _.PAGE_UP, None,     None,    None,    None,    None,   
-    _.TRANS, _.NO, None, None, _.BACKSPACE, _.DELETE, None,    _.LEFT,  _.DOWN ,     _.UP   ,   _.RIGHT,  None,    None,    _.NO,    None,   
-    _.TRANS, _.NO, None, None, None,        None,     None,    None,    _.HOME,      _.END,     None,     None,    _.NO,    None,    None,   
-    _.TRANS, None, None, None, None,        _.TRANS,  None,    None,    None,        None,      None,     None,    _.NO,    None,    None,   
+    _.TRANS, _._,     _._, _._, _._,         _._,      _._, _._,    _._,         _._,       _._,     _._,     _._,     _._,     _._,
+    _.TRANS, _.NOKEY, _._, _._, _._,         _._,      _._, _._,    _.PAGE_DOWN, _.PAGE_UP, _._,     _._,     _._,     _._,     _._,
+    _.TRANS, _.NOKEY, _._, _._, _.BACKSPACE, _.DELETE, _._, _.LEFT, _.DOWN,      _.UP,      _.RIGHT, _._,     _._,     _.NOKEY, _._,
+    _.TRANS, _.NOKEY, _._, _._, _._,         _._,      _._, _._,    _.HOME,      _.END,     _._,     _._,     _.NOKEY, _.TRANS, _._,
+    _.TRANS, _._,     _._, _._, _._,         _.TRANS,  _._, _._,    _._,         _._,       _._,     _.TRANS, _.NOKEY, _.TRANS, _._,
 ))
 
 layout.add_layer(
@@ -81,11 +81,11 @@ layout.add_layer(
 
 layout.add_layer(
     "game0", (
-    _.ESC,       _.NUM_1,    _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7,  _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       _.NO,       _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,      _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NO,       _.A,     _.S,     _.D,     _.F,     _.G,     _.H,      _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     None,        _.ENTER,
-    _.L_SHIFT,   _.NO,       _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,      _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, None,        _.R_SHIFT,   KPAD_TO,
-    _.L_CTRL,    _.L_CTRL,   _.WIN,   _.L_ALT, _.H,     _.SPACE, None,    _.P,      _.R_ALT, _.FORWARD_SLASH, None,     None,            None,        None,        GAME0
+    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,   
+    _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
+    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _._,         _.ENTER,    
+    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _._,         _.R_SHIFT,   _._,        
+    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, _.H,     _.SPACE, _._,     _.P,     _.R_ALT, _.FORWARD_SLASH, _._,      _._,             _._,         _._,         GAME0,      
 ))
 
 
