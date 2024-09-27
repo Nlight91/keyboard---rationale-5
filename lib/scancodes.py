@@ -369,11 +369,11 @@ class Scancodes :
     RIGHT_GUI = R_GUI = R_WIN = RIGHT_COMMAND = R_CMD = 0x00e7 # Keyboard Right GUI
 
     
-    MEDIA_PLAYPAUSE = 0xe8
-    MEDIA_VOLUMEUP = 0xed
-    MEDIA_VOLUMEDOWN = 0xee
-    MEDIA_MUTE = 0xef
-    MEDIA_CALC = 0xfb
+    MEDIA_PLAYPAUSE = MD_PLAY = 0xe8
+    MEDIA_VOLUMEUP = MD_VOLU = 0xed
+    MEDIA_VOLUMEDOWN = MD_VOLD = 0xee
+    MEDIA_MUTE = MD_MUTE = 0xef
+    MEDIA_CALC = MD_CALC = 0xfb
 
     APP_CALC = 0X0192 # Windows calc
     # win : True
