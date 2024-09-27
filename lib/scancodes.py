@@ -349,11 +349,7 @@ class Scancodes :
     # win : True
 
     KEYBOARD_INT5 = KEYBOARD_MUHENKAN = 0x008b # Keyboard INT5<br />Muhenkan (Non-conversion) (Japan)
-    # win : True
-
-    KEYBOARD_INT6 = 0x008c # Keyboard INT6<br />PC98 Keypad comma
-    # win : False
-
+    KEYBOARD_INT6 = KEYBOARD_KPJPCOMMA = 0x008c # Keyboard INT6<br />PC98 Keypad comma
     KEYBOARD_INT7 = 0x008d # Keyboard INT7<br />PC98 Toggle single-byte/double-byte mode
     # win : False
 
