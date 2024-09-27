@@ -20,12 +20,18 @@ class Kbd_Matrix:
             pulldown logic. Pullup means that the zero state (key not pressed)
             is 3.3v, and that the one state (key pressed) is 0v. Just pick one
             mode, does not really matter. Most people use pullup"""
-    def __init__(s, inputs, outputs, pullup=True):
+    def __init__(s, inputs, outputs, pullup=True, less_rows_than_columns=True):
         s.pullup = pullup
         s.inputs = tuple(s.set_input(name) for name in inputs)  #TO CHECK
         s.outputs = tuple(s.set_output(name) for name in outputs)
-        s.rows = s.inputs if len(s.inputs) < len(s.outputs) else s.outputs #assumes that there are less rows than columns
-        s.cols = s.inputs if len(s.inputs) > len(s.outputs) else s.outputs
+        lin = len(s.inputs)
+        lout = len(s.outputs)
+        if less_rows_than_columns:
+            s.rows = s.inputs  if lin <= lout else s.outputs
+            s.cols = s.outputs if lin <= lout else s.inputs
+        elif not less_rows_than_columns :
+            s.rows = s.inputs  if lin > lout else s.outputs
+            s.cols = s.outputs if lin > lout else s.inputs
         s.length = len(s.inputs) * len(s.outputs)
         s.old_state = 0
         s._not = 0 if pullup else (1 << s.length) - 1
