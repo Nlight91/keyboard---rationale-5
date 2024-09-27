@@ -4,7 +4,7 @@ class Scancodes :
 
     NOKEY = 0x0
     
-    EMPTY = 0x0
+    _ = 0x0
 
     A = 0x0004 # Keyboard a and A
     # win : True
