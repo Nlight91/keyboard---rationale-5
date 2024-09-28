@@ -96,8 +96,7 @@ class MainLogic:
         s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers:Layers = layers
-        #s.led = Led()
-    
+
     def __call__(s):
         ble_keyboard = s.ble_keyboard
         release_old_pressed_keys = s.release_old_pressed_keys
