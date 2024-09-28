@@ -1,7 +1,6 @@
 import board
 import digitalio
 import time
-import usb_hid
 
 import adafruit_ble as able
 #from adafruit_ble.advertising import Advertisement
