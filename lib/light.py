@@ -9,7 +9,7 @@ class Led:
     
     Usage example :
     >>> led = LED()
-    >>> led.layer_index(2)
+    >>> led.set_number(2)
     >>> while 1:
     ...     led.process()
     ...     time.sleep(0.002)
@@ -30,6 +30,17 @@ class Led:
          it only accepts two characters :
             - "0" : represent a dot
             - "1" : represent a dash
+        yield tuples following this structure :
+            - time in milliseconds,
+            - state
+        the time element states for how long the state should be maintained
+        for example, let's admit the following sequence parameter "10", which is one dash(3u on) and one dot(1u on)
+        the first tuple will be a space : 7u off (0+7)
+        the second tuple will be a dash : 10u on (7+3)
+        the third will be a separator   : 11u off(10+1)
+        the fourth will be a dot        : 12u on (11+1)
+        the fifth will be a separato    : 13u off(12+1)
+        """
         tm = tm + s.dot_time * 7
         yield ( tm, 0 )
         for c in sequence :
