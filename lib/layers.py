@@ -55,17 +55,12 @@ class Layers :
         assert isinstance(size, tuple)
         assert len(size)==2
         s.matrix_size = size
-        s.tapped_layer = None
         s.layers = {"default":[]}
         s.layer_order = []
         s.layer_state = {}
         s.restore_point = None
         s.TOGGLE = s._class_dec(TOGGLE)
         s.MOMENTARY = s._class_dec(MOMENTARY)
-        s.MOTO = s._class_dec(MOTO)
-        s.MOKEY = s._class_dec(MOKEY)
-        s.MODKEY = s._class_dec(MODKEY)
-        s.TAP = s._class_dec(TAP)
 
     def _class_dec(s, cls):
         """decorator used to set the current instance as the parent parameter of cls.
@@ -108,18 +103,6 @@ class Layers :
         for name, state in zip(lo[rp[0]:], rp[1]) :
             ls[name] = state
         s.restore_point = None
-
-    def tapped(s):
-        return bool(s.tapped_layer)
-
-    def untap(s):
-        """turns off any layer activated by a tap modifier"""
-        if s.tapped_layer :
-            s.layer_state[s.tapped_layer] = False
-            s.tapped_layer = None
-            return True
-        else :
-            return False
 
     def exclude_above(s,idx):
         """turns layers above idx off"""
@@ -200,117 +183,3 @@ class MOMENTARY(LayerFunc):
         if s.restore:
             parent.restore()
         parent.layer_state[s.layer_name] = False
-
-class MOTO(LayerFunc):
-    """MOTO is a key function that combines the MOMENTARY and TOGGLE functions :
-        - if the key is tapped : the layer is toggled on or off.
-        - if the key is pressed for a minimum of time (0.12s by default) : the 
-          key acts as MOMENTARY. The layer will be switched off when the key is
-          released, wheter the layer was previously toggled or not."""
-    def __init__(s, parent, layer_name, exclude_above=True, restore = True, timing=0.12):
-        super().__init__(parent, layer_name, exclude_above, restore)
-        s.TIMING_MOTO = timing
-        s.pressed_at = None
-
-    def beyond_timing(s):
-        if s.pressed_at :
-            return (time.time() - s.pressed_at) > s.TIMING_MOTO
-    def press(s):
-        parent = s.parent
-        state = parent.layer_state[s.layer_name]
-        if not state :
-            if s.restore :
-                parent.create_restore_point(s.idx)
-            if s.exclude_above :
-                parent.exclude_above(s.idx)
-            s.pressed_at = time.time()
-            parent.layer_state[s.layer_name] = True
-        else :
-            if s.pressed_at :
-                s.pressed_at = None
-            if s.restore :
-                parent.restore()
-            parent.layer_state[s.layer_name] = False
-    def depress(s):
-        parent = s.parent
-        if s.pressed_at and s.beyond_timing() :
-            if s.restore:
-                parent.restore()
-            parent.layer_state[s.layer_name] = False
-            s.pressed_at = None
-
-class TAP(LayerFunc):
-    # To Be Honest, I can't remember if the function was finnished or not
-    # to be checked
-    def __init__(s, parent, layer_name, exclude_above=True, restore = True):
-        super().__init__(parent, layer_name, exclude_above, restore)
-    def depress(s):
-        parent = s.parent
-        parent.untap()
-        if s.restore :
-            parent.create_restore_point(s.idx)
-        if s.exclude_above:
-            parent.exclude_above(s.idx)
-        parent.layer_state[s.layer_name] = True
-        parent.tapped_layer = s.layer_name
-
-class MOKEY(LayerFunc):
-    """MOKEY is a key function that acts like the MOMENTARY key function. The
-    difference is that when created a keycode is given to it, which is intended
-    to be requested by main program when the keyfunction is just tapped.
-    To that end, the minimum time the key should be pressed to not be considered
-    tapped is set by the user at creation with the argument 'timing', which
-    defaults to 0.12
-    
-    NOTE : by itself, the key function acts just as a MOMENTARY key function.
-    The user is responsible for using the the 'beyond_timing' method and getting
-    the 'key' attribute."""
-
-    def __init__(s, parent, layer_name, key, exclude_above=True, restore = True, timing=0.12):
-        super().__init__(parent, layer_name, exclude_above, restore)
-        s.TIMING_MOTO = timing
-        s.pressed_at = None
-        s.key = key
-
-    def beyond_timing(s):
-        if s.pressed_at :
-            return (time.time() - s.pressed_at) > s.TIMING_MOTO
-
-    def press(s):
-        parent = s.parent
-        if s.restore :
-            parent.create_restore_point(s.idx)
-        if s.exclude_above :
-            parent.exclude_above(s.idx)
-        s.pressed_at = time.time()
-        parent.layer_state[s.layer_name] = True
-            
-    def depress(s):
-        parent = s.parent
-        if s.restore:
-            parent.restore()
-        parent.layer_state[s.layer_name] = False
-        s.pressed_at = None
-
-class MODKEY(LayerFunc):
-    """MODKEY is a key function that is exactly like MOKEY, but activates no layer.
-    instead, it holds one modifier scancode, and one regular key scancode.
-    Just like with MOKEY, it is up to the user to handle the logic, this here
-    only provides a timer function and scancode values"""
-
-    def __init__(s, parent, mod_scancode, key_scancode, exclude_above=True, restore = True, timing=0.12):
-        super().__init__(parent, "", exclude_above, restore)
-        s.TIMING_MOTO = timing
-        s.pressed_at = None
-        s.key = key_scancode
-        s.mod = mod_scancode
-    
-    def beyond_timing(s):
-        if s.pressed_at : 
-            return (time.time() - s.pressed_at) > s.TIMING_MOTO
-    
-    def press(s):
-        s.pressed_at = time.time()
-    
-    def depress(s):
-        s.pressed_ad = None
