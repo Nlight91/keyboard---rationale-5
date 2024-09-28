@@ -24,7 +24,7 @@ matrix = Kbd_Matrix(
     ("D13", "D12", "D11", "D10", "D9"),
     ("A0", "A1", "A2", "A3", "A4", "A5", "SCK", "MOSI", "MISO", "D2", "RX", "TX", "SDA", "SCL", "D7" ),
     pullup = False
-) 
+)
 
 # Let's create the object that will hold all the layers with key scancodes
 layout = Layers((15,5))
@@ -46,11 +46,11 @@ GAME0 = layout.TOGGLE("game0", restore=False)
 
 # here we create the layers with the key scancodes or internal key special functions like switching layer
 layout.set_default_layer((
-    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,   
+    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
     _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NOKEY,     _.ENTER,    
-    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NOKEY,     _.R_SHIFT,   MEDIA,    
-    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NOKEY, _.SPACE, _.R_ALT, _.FORWARD_SLASH, _._,      _.L_ALT,         _.NOKEY,     _.R_CTRL,    GAME0,      
+    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NOKEY,     _.ENTER,
+    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NOKEY,     _.R_SHIFT,   MEDIA,
+    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NOKEY, _.SPACE, _.R_ALT, _.FORWARD_SLASH, _._,      _.L_ALT,         _.NOKEY,     _.R_CTRL,    GAME0,
 ))
 
 layout.add_layer(
@@ -73,21 +73,21 @@ layout.add_layer(
 
 layout.add_layer(
     "media", (
-    _.TRANS, _._,     _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _.NOKEY,   _._,      
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, "cc:mute", _.NOKEY, "cc:play", MEDIA,  
+    _.TRANS, _._,     _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _.NOKEY,   _._,
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, "cc:mute", _.NOKEY, "cc:play", MEDIA,
     _.TRANS, _._,     _._, _._, _._, _.TRANS, _.NOKEY, _._, _._, _._, _._, "cc:vold", _.NOKEY, "cc:volu", "cc:calc",
     )
 )
 
 layout.add_layer(
     "game0", (
-    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,   
+    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
     _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _._,         _.ENTER,    
-    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _._,         _.R_SHIFT,   _._,        
-    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, _.H,     _.SPACE, _._,     _.P,     _.R_ALT, _.FORWARD_SLASH, _._,      _._,             _._,         _._,         GAME0,      
+    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _._,         _.ENTER,
+    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _._,         _.R_SHIFT,   _._,
+    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, _.H,     _.SPACE, _._,     _.P,     _.R_ALT, _.FORWARD_SLASH, _._,      _._,             _._,         _._,         GAME0,
 ))
 
 
@@ -169,7 +169,7 @@ class MainLogic:
         #s.led.process()
         ble_keyboard.press( *keys )
         gc.collect()
-    
+
     def release_old_pressed_keys(s, old_pressed):
         s.ble_keyboard.release(*(layout[idx] for idx in old_pressed))
 
@@ -194,7 +194,7 @@ def main_loop(layout, matrix):
     print("consumer control found")
 
     main_logic = MainLogic(matrix, layout, ble_keyboard, ble_consumer_control)
-    STATUS_CONNECTED = False 
+    STATUS_CONNECTED = False
 
     # main logic
     while 1:
@@ -210,7 +210,7 @@ def main_loop(layout, matrix):
         elif not ble.connected and not advertising :
             ble.start_advertising(advertisement)
             advertising = True
-        time.sleep(0.5) 
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     main_loop(layout, matrix)
