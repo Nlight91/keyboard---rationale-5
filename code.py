@@ -104,15 +104,10 @@ class MainLogic:
         release_old_pressed_keys = s.release_old_pressed_keys
         new_released, new_pressed, old_pressed = s.matrix.get_report()
 
-        layers = []
+        # holds every methods `press` and `depress` of each <LayerFunc> that are
+        # pressed and depressed in the matrix report
+        layers = [] 
         repress = False #sometimes you need some keys to be pressed again
-
-        #consumer control logic
-        for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
-            attr, key = text.split(":")
-            code = getattr(_, attr)[key]
-            assert type(code) == int
-            s.ble_consumer_control.send(code)
 
         # keyboard logic
         # release logic
@@ -120,24 +115,10 @@ class MainLogic:
         for key in ( s.layers[idx] for idx in new_released ):
             if key in ( None, _.TRANS ) or type(key) == str: continue
             if callable( key ): # if key function
-                if ( type( key ) is lyr.MOMENTARY ) or \
-                    ( type( key ) is lyr.MOTO and key.beyond_timing()) or \
-                    ( type( key ) is lyr.MOKEY and key.beyond_timing()) :
+                if ( type( key ) is lyr.MOMENTARY ) :
                         keys.extend( s.layers[idx] for idx in old_pressed )
                         repress = True
-                elif ( type( key ) is lyr.MOKEY and not key.beyond_timing()):
-                    release_old_pressed_keys( old_pressed )
-                    ble_keyboard.press( key.key )
-                    keys.append( key.key )
-                elif ( type( key ) is lyr.MODKEY ):
-                    if not key.beyond_timing():
-                        ble_keyboard.release( key.mod )
-                        ble_keyboard.press( key.key )
-                        keys.append( key.key )
-                    else :
-                        keys.append( key.mod )
                 layers.append( key.depress )
-                #s.led.set_number( s.layers.get_topmost_active_layer_index())
             elif type( key ) is int:
                 keys.append( key )
         ble_keyboard.release(*keys )
@@ -147,26 +128,24 @@ class MainLogic:
         for key in ( s.layers[idx] for idx in new_pressed ):
             if key in ( None, _.TRANS ) or type(key) == str : continue
             if callable( key ):
-                if type( key ) is lyr.MODKEY :
-                    keys.append( key.mod )
-                    release_old_pressed_keys( old_pressed )
-                elif type( key ) is lyr.MOKEY:
-                    release_old_pressed_keys( old_pressed )
-                elif not repress:
+                if not repress:
                     repress = True
                     release_old_pressed_keys( old_pressed )
                 layers.append( key.press )
-                #s.led.set_number( s.layers.get_topmost_active_layer_index())
             elif type( key ) is int:
-                if s.layers.tapped() :
-                    ble_keyboard.press( key )
-                    s.layers.untap()
-                else :
-                    keys.append( key )
+                keys.append( key )
 
+        # first de/activate various <LayerFunc>
         for func in layers : func()
+
+        #consumer control logic
+        for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
+            attr, key = text.split(":")
+            code = getattr(_, attr)[key]
+            assert type(code) == int
+            s.ble_consumer_control.send(code)
+        
         if repress : keys.extend( s.layers[idx] for idx in old_pressed )
-        #s.led.process()
         ble_keyboard.press( *keys )
         gc.collect()
 
