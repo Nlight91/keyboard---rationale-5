@@ -7,7 +7,7 @@ from scancodes import TRANS
 import time
 
 class LayerFunc:
-    """LayerFunc subclasses of this class are the proper layers""" 
+    """LayerFunc subclasses of this class are the proper layers"""
     @property
     def idx(s):
         if s._idx is None :
@@ -15,7 +15,7 @@ class LayerFunc:
         return s._idx
     def __init__(s, parent:Layers, layer_name:str, exclude_above=True, restore = False):
         """LayerFunc.__init__(parent, layer_name, exclude_above, retore)
-        
+
         parent : <Layer> Layer instance
         layer_name : <str> layer name
         exclude_above : <bool> defaults to True
@@ -39,7 +39,17 @@ class Layers :
     """Layer Manager
 
     this class is intended to handle and manage several layers of keymapping.
-    This is the layer manager if you will. 
+    This is the layer manager if you will.
+
+    NOTES :
+        s.layers:{ name:str : [key_value, ...]}
+            s.layers actually holds the mappings associated to a layer name
+        
+        s.layer_order:[name:str, ...]
+            s.layer_order tells us the order of the layers, order is set by order of creation
+        
+        s.layer_state:{ name:str : bool, ... }
+            s.layer_state tells us the activation state of each layer
     """
     def __init__(s, size ):
         assert isinstance(size, tuple)
@@ -58,8 +68,8 @@ class Layers :
         s.TAP = s._class_dec(TAP)
 
     def _class_dec(s, cls):
-        """decorator used to insert a Layer isntance reference
-        into parameters of [cls].__init__ call"""
+        """decorator used to set the current instance as the parent parameter of cls.
+        cls must be a subclass of LayerFunc"""
         def w(*a, **kw):
             return cls(s, *a, **kw)
         return w
@@ -123,13 +133,17 @@ class Layers :
 
     def get_key_from_layer(s, idx,layer_name):
         return s.layers[layer_name][idx]
-    
+
     def get_topmost_active_layer_index(s):
         for i,name in list(enumerate(s.layer_order))[::-1]:
             if s.layer_state[name] :
-                return i
+                return i+1
+        return 0
 
-    def __getitem__(s, pos):
+    def __getitem__(s, pos:int|tuple):
+        """what does __getitem__ does in this context ?
+        returns a key value, whether it is a <str>, an <int>, a <LayerFunc> or None
+        """
         if type(pos) is not int:
             assert isinstance(pos, tuple)
             assert len(pos) == 2
