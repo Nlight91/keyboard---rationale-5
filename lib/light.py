@@ -53,8 +53,9 @@ class Led:
                 return None
         s.time_sequence_start = time.monotonic()
     
-    def set_number(s, index=0):
-        s.sequence_playing = tuple(s.sequence_generator(f"{index:0>3b}"))
+    def set_number(s, number=0):
+        """set the sequence playing to the binary morse code representing the number number"""
+        s.sequence_playing = tuple(s.sequence_generator(f"{number:0>3b}"))
         s.sequence_step = next(s.sequence_playing)
         s.time_sequence_start = time.monotonic()
         
