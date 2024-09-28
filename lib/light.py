@@ -23,6 +23,7 @@ class Led:
         s.dash_time = s.dot_time * 3
         s.sequence_playing = None
         s.sequence_step = None
+        s._led_state = None
         
     def sequence_generator(s, sequence:str=""):
         """sequence is a n length string
@@ -46,7 +47,10 @@ class Led:
     def sequence_state_at(s, delta):
         for tm, state in s.sequence_playing :
             if delta <= tm :
-                return state
+                if state != s._led_state:
+                    s._led_state = state
+                    return state
+                return None
         s.time_sequence_start = time.monotonic()
     
     def set_number(s, index=0):
@@ -56,7 +60,9 @@ class Led:
         
     def process(s):
         delta_time = time.monotonic() - s.time_sequence_start
-        s.led.value = bool(s.sequence_state_at(delta_time))
+        state = s._sequence_state_at(delta_time)
+        if state != None : 
+            s.led.value = bool(state)
         
         
         
