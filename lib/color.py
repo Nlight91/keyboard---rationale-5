@@ -4,8 +4,8 @@ for i in range(256):
 
 def rgb(string:str):
     num = int(string, 16)
-    r = (num & 0xff0000) >> 4
-    g = (num & 0xff00) >> 2
+    r = (num & 0xff0000) >> 16
+    g = (num & 0xff00) >> 8
     b = num & 0xff
     return GAMMA[r], GAMMA[g], GAMMA[b]
 
