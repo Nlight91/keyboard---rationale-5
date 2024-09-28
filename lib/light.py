@@ -44,7 +44,9 @@ class Led:
                 tm += s.dot_time
                 yield (tm, 0)
     
-    def sequence_state_at(s, delta):
+    def _sequence_state_at(s, delta:int)->int:
+        """-- for internal use --
+        returns the led state when said state changes"""
         for tm, state in s.sequence_playing :
             if delta <= tm :
                 if state != s._led_state:
