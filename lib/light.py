@@ -23,6 +23,7 @@ class Led:
         s.dash_time = s.dot_time * 3
         s.sequence_playing = None
         s.sequence_step = None
+        s.time_sequence_start = None
         s._led_state = None
         
     def sequence_generator(s, sequence:str=""):
