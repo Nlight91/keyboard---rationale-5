@@ -75,7 +75,10 @@ class Kbd_Matrix:
         """ returns 3 lists of indices, repectively:
         newly released keys,
         newly pressed keys,
-        previously pressed keys"""
+        previously pressed keys
+        
+        indices in the lists are the indices of the key pressed in a mapping
+        (whichever one)"""
         new_state = s.scan()
         diff = s.old_state ^ new_state
         nre = diff & s.old_state  # nre : N(ewly) RE(leased)
