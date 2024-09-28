@@ -8,6 +8,7 @@ import adafruit_ble as able
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.standard.hid import HIDService
 from adafruit_hid.Keyboard import Keyboard
+from adafruit_hid.consumer_control import ConsumerControl
 import layers as lyr
 from layers import Layers
 from scancodes import Scancodes as _
@@ -74,8 +75,8 @@ layout.add_layer(
     _.TRANS, _._,     _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
     _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,      
     _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _.NOKEY,   _._,      
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _.MD_MUTE, _.NOKEY, _.MD_PLAY, MEDIA,  
-    _.TRANS, _._,     _._, _._, _._, _.TRANS, _.NOKEY, _._, _._, _._, _._, _.MD_VOLD, _.NOKEY, _.MD_VOLU, _.MD_CALC,
+    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, "cc:mute", _.NOKEY, "cc:play", MEDIA,  
+    _.TRANS, _._,     _._, _._, _._, _.TRANS, _.NOKEY, _._, _._, _._, _._, "cc:vold", _.NOKEY, "cc:volu", "cc:calc",
     )
 )
 
@@ -90,8 +91,9 @@ layout.add_layer(
 
 
 class MainLogic:
-    def __init__(s, matrix:Kbd_Matrix, ble_keyboard:Keyboard, layers:Layers):
+    def __init__(s, matrix:Kbd_Matrix, layers:Layers, ble_keyboard:Keyboard, ble_consumer_control:ConsumerControl):
         s.ble_keyboard = ble_keyboard
+        s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers = layers
     
@@ -103,10 +105,18 @@ class MainLogic:
         layers = []
         repress = False #sometimes you need some keys to be pressed again
 
+        #consumer control logic
+        for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
+            attr, key = text.split(":")
+            code = getattr(_, attr)[key]
+            assert type(code) == int
+            s.ble_consumer_control.send(code)
+
+        # keyboard logic
         # release logic
         keys = []
         for key in ( s.layers[idx] for idx in new_released ):
-            if key in ( None, _.TRANS ) : continue
+            if key in ( None, _.TRANS ) or type(key) == str: continue
             if callable( key ): # if key function
                 if ( type( key ) is lyr.MOMENTARY ) or \
                     ( type( key ) is lyr.MOTO and key.beyond_timing()) or \
@@ -132,23 +142,23 @@ class MainLogic:
         # press logic
         keys = []
         for key in ( s.layers[idx] for idx in new_pressed ):
-            if key not in ( None, _.TRANS ) :
-                if callable( key ):
-                    if type( key ) is lyr.MODKEY :
-                        keys.append( key.mod )
-                        release_old_pressed_keys( old_pressed )
-                    elif type( key ) is lyr.MOKEY:
-                        release_old_pressed_keys( old_pressed )
-                    elif not repress:
-                        repress = True
-                        release_old_pressed_keys( old_pressed )
-                    layers.append( key.press )
-                elif type( key ) is int:
-                    if s.layers.tapped() :
-                        ble_keyboard.press( key )
-                        s.layers.untap()
-                    else :
-                        keys.append( key )
+            if key in ( None, _.TRANS ) or type(key) == str : continue
+            if callable( key ):
+                if type( key ) is lyr.MODKEY :
+                    keys.append( key.mod )
+                    release_old_pressed_keys( old_pressed )
+                elif type( key ) is lyr.MOKEY:
+                    release_old_pressed_keys( old_pressed )
+                elif not repress:
+                    repress = True
+                    release_old_pressed_keys( old_pressed )
+                layers.append( key.press )
+            elif type( key ) is int:
+                if s.layers.tapped() :
+                    ble_keyboard.press( key )
+                    s.layers.untap()
+                else :
+                    keys.append( key )
 
         for func in layers : func()
         if repress : keys.extend( s.layers[idx] for idx in old_pressed )
@@ -172,10 +182,13 @@ def main_loop(layout, matrix):
             c.disconnect()
     ble.start_advertising(advertisement)
     advertising = True
-    ble_keyboard = Keyboard(hid.devices)
-    print("success")
+    devices = hid.devices
+    ble_keyboard = Keyboard(devices)
+    print("keyboard device found")
+    ble_consumer_control = ConsumerControl(devices)
+    print("consumer control found")
 
-    main_logic = MainLogic(matrix, ble_keyboard, layout)
+    main_logic = MainLogic(matrix, layout, ble_keyboard, ble_consumer_control)
     STATUS_CONNECTED = False 
 
     # main logic

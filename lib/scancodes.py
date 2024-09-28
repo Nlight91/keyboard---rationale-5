@@ -368,18 +368,13 @@ class Scancodes :
     RIGHT_ALT = R_ALT = 0x00e6 # Keyboard Right Alt
     RIGHT_GUI = R_GUI = R_WIN = RIGHT_COMMAND = R_CMD = 0x00e7 # Keyboard Right GUI
 
-    
-    MEDIA_PLAYPAUSE = MD_PLAY = 0xe8
-    MEDIA_VOLUMEUP = MD_VOLU = 0xed
-    MEDIA_VOLUMEDOWN = MD_VOLD = 0xee
-    MEDIA_MUTE = MD_MUTE = 0xef
-    MEDIA_CALC = MD_CALC = 0xfb
-
-    APP_CALC = 0X0192 # Windows calc
-    # win : True
-
-    APP_MY_COMPUTER = 0X0194 # Windows explorer on My Computer
-    # win : True
+    cc = {
+        "play" : 0xcd,
+        "volu" : 0xe9,
+        "vold" : 0xea,
+        "mute" : 0xe2,
+        "calc" : 0x192,
+    }
 
     TRANS = TRANS
 
