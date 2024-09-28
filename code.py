@@ -143,13 +143,13 @@ class MainLogic:
             elif type( key ) is int:
                 keys.append( key )
 
-        # first de/activate various <LayerFunc>
+        # first de/activate various <LayerFunc> to set all the right layers on/off
         for func in layers : func()
-
+        
+        # perfect place to handle the dotstar led
         active_layer_index = s.layers.get_topmost_active_layer_index()
         s.dotstar[0] = layers_colors[active_layer_index]
         s.dotstar.show()
-
 
         #consumer control logic
         for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
@@ -202,6 +202,7 @@ def main_loop(layout, matrix):
         elif not ble.connected and not advertising :
             ble.start_advertising(advertisement)
             advertising = True
+            STATUS_CONNECTED = False
         time.sleep(0.5)
 
 if __name__ == '__main__':
