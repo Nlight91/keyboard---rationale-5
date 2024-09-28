@@ -121,8 +121,13 @@ class Layers :
         for key in s.layer_order[1:idx]:
             s.layer_state[key] = False
 
-    def get_key_from_layer(idx,layer_name):
+    def get_key_from_layer(s, idx,layer_name):
         return s.layers[layer_name][idx]
+    
+    def get_topmost_active_layer_index(s):
+        for i,name in list(enumerate(s.layer_order))[::-1]:
+            if s.layer_state[name] :
+                return i
 
     def __getitem__(s, pos):
         if type(pos) is not int:

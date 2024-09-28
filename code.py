@@ -13,6 +13,7 @@ import layers as lyr
 from layers import Layers
 from scancodes import Scancodes as _
 from matrix import Kbd_Matrix
+#from light import Led
 
 import gc
 
@@ -96,6 +97,7 @@ class MainLogic:
         s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers = layers
+        #s.led = Led()
     
     def __call__(s):
         ble_keyboard = s.ble_keyboard
@@ -135,6 +137,7 @@ class MainLogic:
                     else :
                         keys.append( key.mod )
                 layers.append( key.depress )
+                #s.led.set_number( s.layers.get_topmost_active_layer_index())
             elif type( key ) is int:
                 keys.append( key )
         ble_keyboard.release(*keys )
@@ -153,6 +156,7 @@ class MainLogic:
                     repress = True
                     release_old_pressed_keys( old_pressed )
                 layers.append( key.press )
+                #s.led.set_number( s.layers.get_topmost_active_layer_index())
             elif type( key ) is int:
                 if s.layers.tapped() :
                     ble_keyboard.press( key )
@@ -162,6 +166,7 @@ class MainLogic:
 
         for func in layers : func()
         if repress : keys.extend( s.layers[idx] for idx in old_pressed )
+        #s.led.process()
         ble_keyboard.press( *keys )
         gc.collect()
     
