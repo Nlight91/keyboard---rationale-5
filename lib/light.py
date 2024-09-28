@@ -29,9 +29,8 @@ class Led:
          it only accepts two characters :
             - "0" : represent a dot
             - "1" : represent a dash
-        """
-        tm = 0
-        yield (0, tm + s.dot_time * 7)
+        tm = tm + s.dot_time * 7
+        yield ( tm, 0 )
         for c in sequence :
             if c == "0" :
                 tm += s.dot_time
