@@ -79,11 +79,11 @@ layers_colors.append(color.YELLOW)
 
 layout.add_layer(
     "media", (
-    _.TRANS, _._,     _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _._,       _._,
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, _._,       _._,     _.NOKEY,   _._,
-    _.TRANS, _.NOKEY, _._, _._, _._, _._,     _._,     _._, _._, _._, _._, "cc:mute", _.NOKEY, "cc:play", MEDIA,
-    _.TRANS, _._,     _._, _._, _._, _.TRANS, _.NOKEY, _._, _._, _._, _._, "cc:vold", _.NOKEY, "cc:volu", "cc:calc",
+    _.TRANS,  _._,      _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _._,        _._,
+    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _._,        _._,
+    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _.NOKEY,    _._,
+    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  "cc:mute",  _.NOKEY,  "cc:play",  MEDIA,
+    _.TRANS,  _._,      _._,  _._,  _._,  _._,  _.NOKEY,  _._,  _._,  _._,  _._,  "cc:vold",  _.NOKEY,  "cc:volu",  "cc:calc",
     )
 )
 layers_colors.append(color.RED)
