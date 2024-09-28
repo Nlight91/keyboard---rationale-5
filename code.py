@@ -105,7 +105,7 @@ class MainLogic:
         s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers:Layers = layers
-        s.dotstar = DotStar(board.XX, board.XX, 1)
+        s.dotstar = DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brighness=0.05)
 
     def __call__(s):
         ble_keyboard = s.ble_keyboard
