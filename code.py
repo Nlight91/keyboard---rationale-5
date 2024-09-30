@@ -8,7 +8,6 @@ from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.standard.hid import HIDService
 from adafruit_hid.Keyboard import Keyboard
 from adafruit_hid.consumer_control import ConsumerControl
-from adafruit_dotstar import DotStar
 import layers as lyr
 import color
 from layers import Layers
@@ -29,8 +28,6 @@ matrix = Kbd_Matrix(
 
 # Let's create the object that will hold all the layers with key scancodes
 layout = Layers((15,5))
-# this will hold the colors for the corresponding layer, used for the dotstar led
-layers_colors = []
 
 # let's create the key functions that allows the switching to other layers
 KPAD_MO = layout.MOMENTARY("keypad", restore=False)
@@ -55,7 +52,6 @@ layout.set_default_layer((
     _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NOKEY,     _.R_SHIFT,   MEDIA,
     _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NOKEY, _.SPACE, _.R_ALT, _.FORWARD_SLASH, _._,      _.L_ALT,         _.NOKEY,     _.R_CTRL,    GAME0,
 ))
-layers_colors.append(color.GREEN)
 
 layout.add_layer(
     "keypad",(
@@ -65,7 +61,6 @@ layout.add_layer(
     _.TRANS, _.NOKEY, _._,     _._,     _._,     _._,     _._,  _.KP_DIV, _.KP_1,      _.KP_2,  _.KP_3,  _.KP_MUL, _.NOKEY, _.KP_ENTER, _.TRANS,
     _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, _._,  _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,  _.NOKEY, _.TRANS,    _.TRANS,
 ))
-layers_colors.append(color.BLUE)
 
 layout.add_layer(
     "navigation",(
@@ -74,8 +69,6 @@ layout.add_layer(
     _.TRANS, _.NOKEY, _._, _._, _.BACKSPACE, _.DELETE, _._, _.LEFT, _.DOWN,      _.UP,      _.RIGHT, _._,     _._,     _.NOKEY, _._,
     _.TRANS, _.NOKEY, _._, _._, _._,         _._,      _._, _._,    _.HOME,      _.END,     _._,     _._,     _.NOKEY, _.TRANS, _._,
     _.TRANS, _._,     _._, _._, _._,         _.TRANS,  _._, _._,    _._,         _._,       _._,     _.TRANS, _.NOKEY, _.TRANS, _._,
-))
-layers_colors.append(color.YELLOW)
 
 layout.add_layer(
     "media", (
@@ -86,7 +79,6 @@ layout.add_layer(
     _.TRANS,  _._,      _._,  _._,  _._,  _._,  _.NOKEY,  _._,  _._,  _._,  _._,  "cc:vold",  _.NOKEY,  "cc:volu",  "cc:calc",
     )
 )
-layers_colors.append(color.RED)
 
 layout.add_layer(
     "game0", (
@@ -96,7 +88,6 @@ layout.add_layer(
     _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _._,         _.R_SHIFT,   _._,
     _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, _.H,     _.SPACE, _._,     _.P,     _.R_ALT, _.FORWARD_SLASH, _._,      _._,             _._,         _._,         GAME0,
 ))
-layers_colors.append(color.PURPLE)
 
 
 class MainLogic:
@@ -105,7 +96,6 @@ class MainLogic:
         s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers:Layers = layers
-        s.dotstar = DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brighness=0.05)
 
     def __call__(s):
         ble_keyboard = s.ble_keyboard
@@ -146,10 +136,6 @@ class MainLogic:
         # first de/activate various <LayerFunc> to set all the right layers on/off
         for func in layers : func()
         
-        # perfect place to handle the dotstar led
-        active_layer_index = s.layers.get_topmost_active_layer_index()
-        s.dotstar[0] = layers_colors[active_layer_index]
-        s.dotstar.show()
 
         #consumer control logic
         for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
