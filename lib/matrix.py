@@ -59,15 +59,15 @@ class Kbd_Matrix:
         NOTE : returned state is automatically converted (if necessary)
         in a pulldown logic"""
         res = 0
-        len_row = len(s.cols)
+        len_row = len(s.cols) # length of each row
         pullup = s.pullup
-        logic = s._index_logic_columns_are_inputs if s.cols is s.inputs else s._index_logic_rows_are_inputs 
+        col_is_input = s.cols is s.inputs
         for a, pin_out in enumerate(s.outputs):
             pin_out.value = not pullup
             for b, pin_in in enumerate(s.inputs):
                 v = pin_in.value
                 if v :
-                    res |= v << logic(a,b, len_row)
+                    res |= v << s._grid_to_flat_index(a,b, len_row, col_is_input)
             pin_out.value = pullup
         return s.bnot(res) if pullup else res
 
@@ -102,11 +102,10 @@ class Kbd_Matrix:
                 break
         s.old_state = new_state
         return nre_idx, npr_idx, ppr_idx
-
+    
     @staticmethod
-    def _index_logic_columns_are_inputs (a, b, len_row) :
-        return a * len_row + b
-
-    @staticmethod
-    def _index_logic_rows_are_inputs (a, b, len_row) :
-        return b * len_row + a
+    def _grid_to_flat_index(out_index:int, in_index:int, len_row:int, col_is_input:bool)->int:
+        """convert grid coordinates into flat array coordinates"""
+        if col_is_input : row, col = out_index, in_index
+        else : row, col = in_index, out_index
+        return row * len_row + col
