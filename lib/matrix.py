@@ -55,8 +55,7 @@ class Kbd_Matrix:
         one's complement reverse each bit of a number"""
         return s._full_mask ^ num
 
-    def scan(s):
-        """returns the state of physical keys
+    def scan(s)->int:
         NOTE : returned state is automatically converted (if necessary)
         in a pulldown logic"""
         res = 0
@@ -72,7 +71,7 @@ class Kbd_Matrix:
             pin_out.value = pullup
         return s._ones_complement(res) if pullup else res
 
-    def get_report(s):
+    def get_report(s)->tuple[list,list,list]:
         """ returns 3 lists of indices, repectively:
         newly released keys,
         newly pressed keys,
