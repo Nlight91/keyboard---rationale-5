@@ -85,10 +85,11 @@ class Kbd_Matrix:
         nre = diff & s.old_state  # nre : N(ewly) RE(leased)
         npr = diff & new_state  # npr : N(ewly) PR(essed)
         spr = s.old_state & new_state  # spr : S(till) PR(essed)
+        all_states = new_state | s.old_state
         nre_idx = []
         npr_idx = []
         spr_idx = []
-        max = ( 1 << s.length ) - 1
+        max = s._full_mask
         for x in range( s.length ) :
             filt = 1 << x
             if filt & nre :
@@ -97,9 +98,9 @@ class Kbd_Matrix:
                 npr_idx.append(x)
             elif filt & spr:
                 spr_idx.append(x)
-            mask = max ^ ( ( 1 << ( x + 1 ) ) - 1 )
-            nre, npr, spr = mask & nre, mask & npr, mask & spr
-            if not any((nre,npr, spr)):
+            mask = max ^ ( ( filt << 1 ) - 1 )
+            if not (all_states & mask) :
+                # no keys left
                 break
         s.old_state = new_state
         return nre_idx, npr_idx, spr_idx
