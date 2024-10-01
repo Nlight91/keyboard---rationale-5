@@ -13,7 +13,7 @@ class LayerFunc:
         if s._idx is None :
             s._idx = s.parent.layer_order.index(s.layer_name)
         return s._idx
-    def __init__(s, parent:Layers, layer_name:str, exclude_above=True, restore = False):
+    def __init__(s, parent, layer_name:str, exclude_above=True, restore = False):
         """LayerFunc.__init__(parent, layer_name, exclude_above, retore)
 
         parent : <Layer> Layer instance
