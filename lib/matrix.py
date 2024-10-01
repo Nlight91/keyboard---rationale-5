@@ -84,7 +84,7 @@ class Kbd_Matrix:
         diff = s.old_state ^ new_state
         nre = diff & s.old_state  # nre : N(ewly) RE(leased)
         npr = diff & new_state  # npr : N(ewly) PR(essed)
-        spr = s._ones_complement(diff) & new_state  # spr : S(till) PR(essed)
+        spr = s.old_state & new_state  # spr : S(till) PR(essed)
         nre_idx = []
         npr_idx = []
         spr_idx = []
