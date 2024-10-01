@@ -34,7 +34,7 @@ class Kbd_Matrix:
             s.cols = s.outputs if lin > lout else s.inputs
         s.length = len(s.inputs) * len(s.outputs)
         s.old_state = 0
-        s._not = 0 if pullup else (1 << s.length) - 1
+        s._full_mask = 0 if pullup else (1 << s.length) - 1
         
     def set_output(s,pin_name):
         "internal use only"
@@ -53,7 +53,7 @@ class Kbd_Matrix:
     def _ones_complement(s,num):
         """internal use only
         one's complement reverse each bit of a number"""
-        return s._not ^ num
+        return s._full_mask ^ num
 
     def scan(s):
         """returns the state of physical keys
