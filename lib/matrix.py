@@ -101,7 +101,7 @@ class Kbd_Matrix:
                 spr_idx.append(x)
             mask = max ^ ( ( filt << 1 ) - 1 )
             if not (all_states & mask) :
-                # no keys left
+                # no keys left, rest of the loop would be useless
                 break
         s.old_state = new_state
         return nre_idx, npr_idx, spr_idx
