@@ -102,7 +102,7 @@ class Kbd_Matrix:
             if not any((nre,npr, spr)):
                 break
         s.old_state = new_state
-        return nre_idx, npr_idx, ppr_idx
+        return nre_idx, npr_idx, spr_idx
     
     @staticmethod
     def _grid_to_flat_index(out_index:int, in_index:int, len_row:int, col_is_input:bool)->int:
