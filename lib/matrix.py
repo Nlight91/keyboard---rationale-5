@@ -27,14 +27,16 @@ class Kbd_Matrix:
         lin = len(s.inputs)
         lout = len(s.outputs)
         if less_rows_than_columns:
-            s.rows = s.inputs  if lin <= lout else s.outputs
-            s.cols = s.outputs if lin <= lout else s.inputs
+            s.rows:tuple = s.inputs  if lin <= lout else s.outputs
+            s.cols:tuple = s.outputs if lin <= lout else s.inputs
         elif not less_rows_than_columns :
-            s.rows = s.inputs  if lin > lout else s.outputs
-            s.cols = s.outputs if lin > lout else s.inputs
-        s.length = len(s.inputs) * len(s.outputs)
-        s.old_state = 0
-        s._full_mask = (1 << s.length) - 1
+            s.rows:tuple = s.inputs  if lin > lout else s.outputs
+            s.cols:tuple = s.outputs if lin > lout else s.inputs
+        s.length:int = len(s.inputs) * len(s.outputs)
+        s.old_state:int = 0
+
+        # if length is 4, the full mask is 0b1111
+        s._full_mask:int = (1 << s.length) - 1 
         
     def set_output(s,pin_name):
         "internal use only"
