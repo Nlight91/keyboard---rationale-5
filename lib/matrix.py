@@ -34,7 +34,7 @@ class Kbd_Matrix:
             s.cols = s.outputs if lin > lout else s.inputs
         s.length = len(s.inputs) * len(s.outputs)
         s.old_state = 0
-        s._full_mask = 0 if pullup else (1 << s.length) - 1
+        s._full_mask = (1 << s.length) - 1
         
     def set_output(s,pin_name):
         "internal use only"
