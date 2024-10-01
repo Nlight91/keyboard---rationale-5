@@ -50,8 +50,9 @@ class Kbd_Matrix:
         pin.pull = getattr( digitalio.Pull, "UP" if s.pullup else "DOWN" )
         return pin
 
-    def bnot(s,num):
-        "internal use only"
+    def _ones_complement(s,num):
+        """internal use only
+        one's complement reverse each bit of a number"""
         return s._not ^ num
 
     def scan(s):
@@ -69,7 +70,7 @@ class Kbd_Matrix:
                 if v :
                     res |= v << s._grid_to_flat_index(a,b, len_row, col_is_input)
             pin_out.value = pullup
-        return s.bnot(res) if pullup else res
+        return s._ones_complement(res) if pullup else res
 
     def get_report(s):
         """ returns 3 lists of indices, repectively:
@@ -83,7 +84,7 @@ class Kbd_Matrix:
         diff = s.old_state ^ new_state
         nre = diff & s.old_state  # nre : N(ewly) RE(leased)
         npr = diff & new_state  # npr : N(ewly) PR(essed)
-        spr = s.bnot(diff) & new_state  # spr : S(till) PR(essed)
+        spr = s._ones_complement(diff) & new_state  # spr : S(till) PR(essed)
         nre_idx = []
         npr_idx = []
         spr_idx = []
