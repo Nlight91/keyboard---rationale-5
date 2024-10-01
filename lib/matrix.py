@@ -56,6 +56,8 @@ class Kbd_Matrix:
         return s._full_mask ^ num
 
     def scan(s)->int:
+        """returns the state of physical keys into one integer where each bit
+        represents the state of a key
         NOTE : returned state is automatically converted (if necessary)
         in a pulldown logic"""
         res = 0
