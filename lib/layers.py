@@ -8,11 +8,13 @@ import time
 
 class LayerFunc:
     """LayerFunc subclasses of this class are the proper layers"""
+
     @property
     def idx(s):
         if s._idx is None :
             s._idx = s.parent.layer_order.index(s.layer_name)
         return s._idx
+
     def __init__(s, parent, layer_name:str, exclude_above=True, restore = False):
         """LayerFunc.__init__(parent, layer_name, exclude_above, retore)
 
