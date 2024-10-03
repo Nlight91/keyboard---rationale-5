@@ -1,0 +1,95 @@
+{
+    "matrix" : {
+        "rows" : ["D13", "D12", "D11", "D10", "D9"],
+        "columns": ["A0", "A1", "A2", "A3", "A4", "A5", "SCK", "MOSI", "MISO", "D2", "RX", "TX", "SDA", "SCL", "D7"],
+        "pullup" : false,
+        "rows_are_inputs"  : true
+    },
+    "switches" : {
+        "kpad" : {
+            "type" : "momentary",
+            "arguments" : {"layer_name": "keypad", "restore":false}
+        },
+        "nav" : {
+            "type" : "momentary",
+            "arguments" : {"layer_name" : "navigation","restore":false}
+        },
+        "media" : {
+            "type" : "momentary",
+            "arguments" : {"layer_name" : "media", "restore":false}
+        },
+        "game0" : {
+            "type" : "toggle",
+            "arguments" : {"layer_name" : "game0", "restore":false}
+        }
+    },
+    "default_layer" : {
+        "layout" : [
+            "kb:esc",   "kb:_1",     "kb:_2",  "kb:_3",   "kb:_4",   "kb:_5",  "kb:_6",  "kb:_7",    "kb:_8",   "kb:_9",    "kb:_0",    "kb:minus", "kb:equals", "kb:bslsh", "kb:dlete",
+            "kb:tab",   "no:key",    "kb:Q",   "kb:W",    "kb:E",    "kb:R",   "kb:T",   "kb:Y",     "kb:U",    "kb:I",     "kb:O",     "kb:P",     "kb:lbckt",  "kb:rbckt", "kb:bkspc",
+            "kb:cplck", "no:key",    "kb:A",   "kb:S",    "kb:D",    "kb:F",   "kb:G",   "kb:H",     "kb:J",    "kb:K",     "kb:L",     "kb:smcln", "kb:quote",  "no:key",   "kb:enter",
+            "kb:lshft", "no:key",    "kb:Z",   "kb:X",    "kb:C",    "kb:V",   "kb:B",   "kb:N",     "kb:M",    "kb:comma", "kb:priod", "kb:fslsh", "no:key",    "kb:rshft", "sw:game0",
+            "kb:lctrl", "kb:lctrl",  "kb:win", "kb:lalt", "sw:kpad", "sw:nav", "no:key", "kb:space", "kb:ralt", "kb:fslsh", "no:nop",   "kb:lalt",  "no:key",    "kb:rctrl", "sw:media"
+        ],
+        "color" : [ 0, 0, 255 ],
+        "blue_led_sequence" : {"type":"manual", "loop":true, "arg":[[1000,1]]}
+    },
+    "layers" : [
+        {
+            "name" : "keypad",
+            "description" : "layout for a keypad + Fkeys",
+            "layout":[
+                "no:TRANS", "kb:F1   ", "kb:F2   ", "kb:F3   ", "kb:F4   ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:dlete",
+                "no:TRANS", "no:key  ", "kb:F5   ", "kb:F6   ", "kb:F7   ", "kb:F8   ", "no:nop  ", "no:nop  ", "kp:_7   ", "kp:_8   ", "kp:_9   ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:bkspc", 
+                "no:TRANS", "no:key  ", "kb:F9   ", "kb:F10  ", "kb:F11  ", "kb:F12  ", "no:nop  ", "kp:plus ", "kp:_4   ", "kp:_5   ", "kp:_6   ", "kp:minus", "kp:enter", "no:key  ", "kb:enter", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:     ", "no:nop  ", "kp:div  ", "kp:_1   ", "kp:_2   ", "kp:_3   ", "kp:mul  ", "no:key  ", "kb:rshft", "no:nop  ", 
+                "no:TRANS", "no:TRANS", "no:TRANS", "no:TRANS", "no:TRANS", "kb:space", "no:key  ", "kp:_0   ", "kp:dot  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "kb:lalt ", "kb:lctrl" 
+            ]
+            
+        },
+        {
+            "name" : "navigation",
+            "description" : "layout for basic navigation and operations through text",
+            "layout" : [
+                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:pgdwn", "kb:pgup ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "kb:dlete", "kb:bkspc", "no:nop  ", "kb:left ", "kb:down ", "kb:up   ", "kb:right", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:home ", "kb:end  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  " 
+            ]
+        },
+        {
+            "name" : "media",
+            "description" : "layout for multimedia keys",
+            "layout" : [
+                "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:key  ", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:key  ", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", 
+                "no:key  ", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "cc:mute ", "no:key  ", "cc:play ", "no:nop  ", 
+                "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "cc:calc ", "cc:voldn", "no:key  ", "cc:volup", "sw:media" 
+            ]
+        },
+        {
+            "name" : "game0",
+            "description" : "layout for general gaming",
+            "layout" : [
+                "kb:esc",   "kb:_1",    "kb:_2",  "kb:_3",   "kb:_4",   "kb:_5",  "kb:_6",  "kb:_7",    "kb:_8",   "kb:_9",    "kb:_0",    "kb:minus", "kb:equals", "kb:bslsh", "kb:dlete",
+                "kb:tab",   "no:key",   "kb:Q",   "kb:W",    "kb:E",    "kb:R",   "kb:T",   "kb:Y",     "kb:U",    "kb:I",     "kb:O",     "kb:P",     "kb:lbckt",  "kb:rbckt", "kb:bkspc",
+                "kb:cplck", "no:key",   "kb:A",   "kb:S",    "kb:D",    "kb:F",   "kb:G",   "kb:H",     "kb:J",    "kb:K",     "kb:L",     "kb:smcln", "kb:quote",  "no:key",   "kb:enter",
+                "kb:lshft", "no:key",   "kb:Z",   "kb:X",    "kb:C",    "kb:V",   "kb:B",   "kb:N",     "kb:M",    "kb:comma", "kb:priod", "kb:fslsh", "no:key",    "kb:rshft", "sw:game0",
+                "kb:lctrl", "kb:lctrl", "kb:win", "kb:lalt", "sw:kpad", "sw:nav", "no:key", "kb:space", "kb:ralt", "kb:fslsh", "no:nop",   "kb:lalt",  "no:key",    "kb:rctrl", "no:nop  "
+            ]
+        },
+        {
+            "name" : "_comment",
+            "description" : "blank layout to copy",
+            "layout" : [
+                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  ", 
+                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  " 
+            ]
+        }
+    ]
+}

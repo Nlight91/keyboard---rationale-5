@@ -7,36 +7,35 @@ class Kbd_Matrix:
     created. And also to report on the state of keys
     
     usage :
-        Kbd_Matrix(inputs, outputs, pullup=True)
+        Kbd_Matrix(inputs=(), outputs=(), pullup=True, rows_are_inputs=True)
         
     arguments :
-        inputs []str : list of strings where each string is the name of a pin,
-            that will be used as input. That name must match one of the pin
-            attributes from the module 'board'.
+        rows []str : list of strings where each string is the name of a pin,
+            that name must match one of the pin attributes from the module
+            'board'.
         
-        ouputs []str : same sa inputs, but the pins are set as outputs
+        columns []str : same as rows.
         
         pullup  bool : defaults to True. It does set the board pins in pullup or
             pulldown logic. Pullup means that the zero state (key not pressed)
             is 3.3v, and that the one state (key pressed) is 0v. Just pick one
-            mode, does not really matter. Most people use pullup"""
-    def __init__(s, inputs, outputs, pullup=True, less_rows_than_columns=True):
+            mode, does not really matter. Most people use pullup
+        
+        rows_are_inputs bool : defaults to True. It does tells the class which
+            pins to set up as inputs or outputs, it is determined by the
+            direction of the diodes you soddered on your physical matrix.
+        """
+        
+    def __init__(s, rows:list[str]=(), columns:list[str]=(), pullup:bool=True, rows_are_inputs:bool=True):
         s.pullup = pullup
-        s.inputs = tuple(s.set_input(name) for name in inputs)  #TO CHECK
-        s.outputs = tuple(s.set_output(name) for name in outputs)
-        lin = len(s.inputs)
-        lout = len(s.outputs)
-        if less_rows_than_columns:
-            s.rows:tuple = s.inputs  if lin <= lout else s.outputs
-            s.cols:tuple = s.outputs if lin <= lout else s.inputs
-        elif not less_rows_than_columns :
-            s.rows:tuple = s.inputs  if lin > lout else s.outputs
-            s.cols:tuple = s.outputs if lin > lout else s.inputs
-        s.length:int = len(s.inputs) * len(s.outputs)
+        rows_funcs = [s.set_output, s.set_input]
+        cols_funcs = rows_funcs[::-1]
+        s.rows = tuple(rows_funcs[rows_are_inputs](name) for name in rows)
+        s.cols = tuple(cols_funcs[rows_are_inputs](name) for name in columns)
+        s.inputs, s.outputs = (s.rows, s.cols) if rows_are_inputs else (s.cols, s.rows)
+        s.length:int = len(s.rows) * len(s.cols)
         s.old_state:int = 0
-
-        # if length is 4, the full mask is 0b1111
-        s._full_mask:int = (1 << s.length) - 1 
+        s._full_mask:int = (1 << s.length) - 1  # 0b1111 if length(4) for example
         
     def set_output(s,pin_name):
         "internal use only"

@@ -3,11 +3,22 @@ Just as layers in Photoshop, a layer with a higher index takes precedence over
 layers with a lower index. For example the layer at index 0 (default layer)
 will always get covered by other layers.
 """
-from scancodes import TRANS
-import time
 
-class LayerFunc:
-    """LayerFunc subclasses of this class are the proper layers"""
+class Switch:
+    """Switch, class made to be subclassed. It is what is in charge of switching
+    the layer it is being tied to. More generally every exotic function that a
+    keyboard do not offer traditionally, should be implemented as a subclass of
+    `Switch`. 
+    
+    For example, one could decide to create a type of Switch that could just
+    press a given combination of keys, this kind of stuff.
+    
+    it is up to the developper to decide if his switch needs to make use of the
+    methods `__call__`, `press`, `depress`.
+    
+    press() and depressed() are implemented when the functionality demands that
+    the key press and release should be treated separately. If not, __call__
+    should be implemented"""
 
     @property
     def idx(s):
@@ -52,33 +63,43 @@ class Layers :
         
         s.layer_state:{ name:str : bool, ... }
             s.layer_state tells us the activation state of each layer
+        
+        s.switches:{name:str : Switch, ...}
+            s.switches holds every layer switcher the user instanciate
     """
-    def __init__(s, size ):
-        assert isinstance(size, tuple)
-        assert len(size)==2
-        s.matrix_size = size
+    def __init__(s, length:int ):
+        s.matrix_length = length
         s.layers = {"default":[]}
         s.layer_order = []
         s.layer_state = {}
+        s.switches = {}
         s.restore_point = None
-        s.TOGGLE = s._class_dec(TOGGLE)
-        s.MOMENTARY = s._class_dec(MOMENTARY)
+    
+    def add_switch(s, type:str, switch_name:str, kargs:dict):
 
-    def _class_dec(s, cls):
-        """decorator used to set the current instance as the parent parameter of cls.
-        cls must be a subclass of LayerFunc"""
-        def w(*a, **kw):
-            return cls(s, *a, **kw)
-        return w
+        cls = globals()[type.upper()]
+        sig_set = set(cls._signature_kargs)
+        kargs_set = set(kargs.keys())
+        # remove keywords not in signature
+        for key in kargs_set - sig_set:
+            del kargs[key]
+        kargs_set = set(kargs.keys())
+        missing_kargs = set(cls._signature_mandatory_kargs) - kargs_set
+        if missing_kargs : 
+            raise TypeError(f"{cls.__name__}.__init__() missing {len(missing_kargs)} required keyword argument: {str(list(missing_kargs))[1:-1]}")
+        s.switches[switch_name] = cls(s, **kargs)
+    
+    def get_switch_type_name(s, switch_name:str):
+        return s.switches[switch_name].__class__.__name__
 
     def set_default_layer(s, args):
-        assert len(args) == s.matrix_size[0]*s.matrix_size[1]
+        assert len(args) == s.matrix_length
         s.layers["default"] = args
 
     def add_layer(s,layer_name, args):
         assert isinstance(layer_name, str)
         assert layer_name != "default"
-        assert len(args) == s.matrix_size[0]*s.matrix_size[1]
+        assert len(args) == s.matrix_length
         s.layers[layer_name] = args
         if layer_name not in s.layer_order :
             s.layer_order.append(layer_name)
@@ -125,36 +146,27 @@ class Layers :
                 return i+1
         return 0
 
-    def __getitem__(s, pos:int|tuple):
+    def __getitem__(s, pos:int):
         """what does __getitem__ does in this context ?
         returns a key value, whether it is a <str>, an <int>, a <LayerFunc> or None
         """
-        if type(pos) is not int:
-            assert isinstance(pos, tuple)
-            assert len(pos) == 2
-            c,r = pos
-            assert 0 <= r < s.matrix_size[0]
-            assert 0 <= c < s.matrix_size[1]
-            idx = s.matrix_size[0] * r + c
-        else :
-            idx = pos
+        idx = pos
         layer_state = s.layer_state
-        trans = TRANS
         for layer_name in s.layer_order[::-1]:
             if layer_state[layer_name]:
                 k = s.layers[layer_name][idx]
-                if k is trans:
+                if k == "no:TRANS":
                     continue
-                elif k is None:
-                    return None
                 return k
         else :
             return s.layers["default"][idx]
 
-class TOGGLE(LayerFunc):
+class TOGGLE(Switch):
     """TOGGLE is a key function that as the name suggest turns on or off a
     layer"""
-    def __init__(s, parent, layer_name, exclude_above=True, restore = False):
+    _signature_mandatory_kargs = ["layer_name"]
+    _signature_kargs = _signature_mandatory_kargs + ["exclude_above", "restore"]
+    def __init__(s, parent, layer_name="", exclude_above=True, restore = False):
         super().__init__(parent, layer_name, exclude_above, restore)
     def press(s):
         parent = s.parent
@@ -166,12 +178,14 @@ class TOGGLE(LayerFunc):
                 parent.restore()
         if s.exclude_above and not state:
             parent.exclude_above(s.idx)
-        parent.layer_state[s.layer_name] = not(parent.layer_state[s.layer_name])
+        parent.layer_state[s.layer_name] = not(state)
 
-class MOMENTARY(LayerFunc):
+class MOMENTARY(Switch):
     """MOMENTARY is a key function that switches to a given layer as long as the
     key is pressed, and then turns if off as soon as it is released"""
-    def __init__(s, parent, layer_name, exclude_above=True, restore = True):
+    _signature_mandatory_kargs = ["layer_name"]
+    _signature_kargs = _signature_mandatory_kargs + ["exclude_above", "restore"]
+    def __init__(s, parent, layer_name="", exclude_above=True, restore = True):
         super().__init__(parent, layer_name, exclude_above, restore)
     def press(s):
         parent = s.parent

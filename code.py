@@ -8,86 +8,13 @@ from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.standard.hid import HIDService
 from adafruit_hid.Keyboard import Keyboard
 from adafruit_hid.consumer_control import ConsumerControl
-import layers as lyr
-import color
-from layers import Layers
-from scancodes import Scancodes as _
-from matrix import Kbd_Matrix
-#from light import Led
+
+import scancodes 
+from setup import setup
 
 import gc
 
 POLLING_RATE = 500 # expressed in hz
-
-# Let's set up the matrix of our board, reflecting the physical layout we made
-matrix = Kbd_Matrix(
-    ("D13", "D12", "D11", "D10", "D9"),
-    ("A0", "A1", "A2", "A3", "A4", "A5", "SCK", "MOSI", "MISO", "D2", "RX", "TX", "SDA", "SCL", "D7" ),
-    pullup = False
-)
-
-# Let's create the object that will hold all the layers with key scancodes
-layout = Layers((15,5))
-
-# let's create the key functions that allows the switching to other layers
-KPAD_MO = layout.MOMENTARY("keypad", restore=False)
-KPAD_TO = layout.TOGGLE("keypad", restore=False)
-#NAV = layout.MOKEY("navigation", _.SPACE,  restore=False, timing=0.05)
-NAV = layout.MOMENTARY("navigation", restore=False)
-MEDIA = layout.MOMENTARY("media", restore=False)
-GAME0 = layout.TOGGLE("game0", restore=False)
-# Here is an example usage of MODKEY :
-#
-#    GR_SPACE = layout.MODKEY(_.R_ALT, _.SPACE, timing=0.08)
-#
-# as you can see for this function, there is no need for layer name, because
-# this function switches to none, however the first value must be the scancode
-# of a modifier
-
-# here we create the layers with the key scancodes or internal key special functions like switching layer
-layout.set_default_layer((
-    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _.NOKEY,     _.ENTER,
-    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _.NOKEY,     _.R_SHIFT,   MEDIA,
-    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, KPAD_MO, NAV,     _.NOKEY, _.SPACE, _.R_ALT, _.FORWARD_SLASH, _._,      _.L_ALT,         _.NOKEY,     _.R_CTRL,    GAME0,
-))
-
-layout.add_layer(
-    "keypad",(
-    _.TRANS, _.F1,    _.F2,    _.F3,    _.F4,    _.F5,    _.F6, _.F7,     _.F8,        _.F9,    _.F10,   _.F11,    _.F12,   _.TRANS,    _.TRANS,
-    _.TRANS, _.NOKEY, _.F5,    _.F6,    _.F7,    _.F8,    _._,  _.NUM_5,  _.KP_7,      _.KP_8,  _.KP_9,  _.MINUS,  _._,     _.TRANS,    _.TRANS,
-    _.TRANS, _.NOKEY, _.F9,    _.F10,   _.F11,   _.F12,   _._,  _.KP_ADD, _.KP_4,      _.KP_5,  _.KP_6,  _.KP_MIN, _._,     _.NOKEY,    _.TRANS,
-    _.TRANS, _.NOKEY, _._,     _._,     _._,     _._,     _._,  _.KP_DIV, _.KP_1,      _.KP_2,  _.KP_3,  _.KP_MUL, _.NOKEY, _.KP_ENTER, _.TRANS,
-    _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.TRANS, _.SPACE, _._,  _.KP_0,   _.KP_PERIOD, _.TRANS, _.TRANS, _.TRANS,  _.NOKEY, _.TRANS,    _.TRANS,
-))
-
-layout.add_layer(
-    "navigation",(
-    _.TRANS, _._,     _._, _._, _._,         _._,      _._, _._,    _._,         _._,       _._,     _._,     _._,     _._,     _._,
-    _.TRANS, _.NOKEY, _._, _._, _._,         _._,      _._, _._,    _.PAGE_DOWN, _.PAGE_UP, _._,     _._,     _._,     _._,     _._,
-    _.TRANS, _.NOKEY, _._, _._, _.BACKSPACE, _.DELETE, _._, _.LEFT, _.DOWN,      _.UP,      _.RIGHT, _._,     _._,     _.NOKEY, _._,
-    _.TRANS, _.NOKEY, _._, _._, _._,         _._,      _._, _._,    _.HOME,      _.END,     _._,     _._,     _.NOKEY, _.TRANS, _._,
-    _.TRANS, _._,     _._, _._, _._,         _.TRANS,  _._, _._,    _._,         _._,       _._,     _.TRANS, _.NOKEY, _.TRANS, _._,
-
-layout.add_layer(
-    "media", (
-    _.TRANS,  _._,      _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _._,        _._,
-    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _._,        _._,
-    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  _._,        _._,      _.NOKEY,    _._,
-    _.TRANS,  _.NOKEY,  _._,  _._,  _._,  _._,  _._,      _._,  _._,  _._,  _._,  "cc:mute",  _.NOKEY,  "cc:play",  MEDIA,
-    _.TRANS,  _._,      _._,  _._,  _._,  _._,  _.NOKEY,  _._,  _._,  _._,  _._,  "cc:vold",  _.NOKEY,  "cc:volu",  "cc:calc",
-    )
-)
-
-layout.add_layer(
-    "game0", (
-    _.ESC,       _.NUM_1,  _.NUM_2, _.NUM_3, _.NUM_4, _.NUM_5, _.NUM_6, _.NUM_7, _.NUM_8, _.NUM_9,         _.NUM_0,  _.MINUS,         _.EQUALS,    _.BACKSLASH, _.DELETE,
-    _.TAB,       _.NOKEY,  _.Q,     _.W,     _.E,     _.R,     _.T,     _.Y,     _.U,     _.I,             _.O,      _.P,             _.L_BRACKET, _.R_BRACKET, _.BACKSPACE,
-    _.CAPS_LOCK, _.NOKEY,  _.A,     _.S,     _.D,     _.F,     _.G,     _.H,     _.J,     _.K,             _.L,      _.SEMICOLON,     _.QUOTE,     _._,         _.ENTER,
-    _.L_SHIFT,   _.NOKEY,  _.Z,     _.X,     _.C,     _.V,     _.B,     _.N,     _.M,     _.COMMA,         _.PERIOD, _.FORWARD_SLASH, _._,         _.R_SHIFT,   _._,
-    _.L_CTRL,    _.L_CTRL, _.WIN,   _.L_ALT, _.H,     _.SPACE, _._,     _.P,     _.R_ALT, _.FORWARD_SLASH, _._,      _._,             _._,         _._,         GAME0,
-))
 
 
 class MainLogic:
@@ -96,61 +23,85 @@ class MainLogic:
         s.ble_consumer_control = ble_consumer_control
         s.matrix = matrix
         s.layers:Layers = layers
+        s.awaiting_physical_release = set()
+    
+    def _get_type_and_vcode(s, key_index:int):
+        string = s.layers[key_index]
+        assert ":" in string
+        colon_index = string.index(":")
+        return string[:colon_index], string[colon_index+1:]
 
     def __call__(s):
-        ble_keyboard = s.ble_keyboard
-        release_old_pressed_keys = s.release_old_pressed_keys
-        new_released, new_pressed, old_pressed = s.matrix.get_report()
+        new_released, new_pressed, still_pressed = s.matrix.get_report()
 
         # holds every methods `press` and `depress` of each <LayerFunc> that are
         # pressed and depressed in the matrix report
-        layers = [] 
-        repress = False #sometimes you need some keys to be pressed again
+        switches_method = [] 
 
         # keyboard logic
-        # release logic
+        ## release logic
         keys = []
-        for key in ( s.layers[idx] for idx in new_released ):
-            if key in ( None, _.TRANS ) or type(key) == str: continue
-            if callable( key ): # if key function
-                if ( type( key ) is lyr.MOMENTARY ) :
-                        keys.extend( s.layers[idx] for idx in old_pressed )
-                        repress = True
-                layers.append( key.depress )
-            elif type( key ) is int:
-                keys.append( key )
-        ble_keyboard.release(*keys )
+        for key_index in new_released :
+            if key_index in s.awaiting_physical_release :
+                s.awaiting_physical_release.difference_update(key_index)
+                continue
+            key_string = s.layers[key_index]
+            key_type, key_vcode = s._get_type_and_vcode(key_index)
+            #if key == "no:TRANS" or key_tp == "cc" : continue
+            if key_string == "no:TRANS" : continue
+            elif key_type == "sw" :
+                for sp_idx in still_pressed :
+                    sp_type, sp_vcode = s._get_type_and_vcode(sp_idx)
+                    if sp_type == "cc" : continue
+                    keys.append(scancodes.get_hid_usage_id(sp_type, sp_vcode))
+                    s.awaiting_physical_release.update({sp_idx})
+                switches_method.append(s.layers.switches[key_vcode].depress)
+            else :
+                if key_type == "cc" : queue = consumer_keys
+                else : queue = keys
+                queue.append( scancodes.get_hid_usage_id(key_type, key_vcode) )
+        s.ble_keyboard.release( *keys )
 
-        # press logic
-        keys = []
-        for key in ( s.layers[idx] for idx in new_pressed ):
-            if key in ( None, _.TRANS ) or type(key) == str : continue
-            if callable( key ):
-                if not repress:
-                    repress = True
-                    release_old_pressed_keys( old_pressed )
-                layers.append( key.press )
-            elif type( key ) is int:
-                keys.append( key )
+        ## press logic
+        queue = []
+        for key_index in new_pressed :
+            key_type, key_vcode = s._get_type_and_vcode(key_index)
+            if key_type == "sw" :
+                s.force_release_still_pressed_keys( still_pressed )
+                switches_method.append( s.layers.switches[key_vcode].press )
+            else : 
+                queue.append( key_index )
 
-        # first de/activate various <LayerFunc> to set all the right layers on/off
-        for func in layers : func()
+        # first de/activate various <Switch> to set all the right layers on/off
+        for func in switches_method : func()
+
+        # now that new switches are pressed, complete press logic
+        keyboard_keys = []
+        consumer_keys = []
+        for key_index in queue :
+            key_type, key_vcode = s._get_type_and_vcode( key_index )
+            if (key_type, key_vcode) == ("no", "TRANS") : continue
+            elif key_type == "cc" :
+                consumer_keys.append( (key_index, scancodes.get_hid_usage_id(key_type, key_vcode)) )
+            else :
+                keyboard_keys.append( scancodes.get_hid_usage_id(key_type, key_vcode) )
         
-
-        #consumer control logic
-        for text in (s.layers[idx] for idx in new_released if type(s.layers[idx])==str):
-            attr, key = text.split(":")
-            code = getattr(_, attr)[key]
-            assert type(code) == int
-            s.ble_consumer_control.send(code)
-        
-        if repress : keys.extend( s.layers[idx] for idx in old_pressed )
-        ble_keyboard.press( *keys )
+        for key_index, hid_uid in consumer_keys:
+            s.ble_consumer_control.send( hid_uid )
+            s.awaiting_physical_release.update({key_index})
+        s.ble_keyboard.press( *keyboard_keys )
         gc.collect()
 
-    def release_old_pressed_keys(s, old_pressed):
-        s.ble_keyboard.release(*(layout[idx] for idx in old_pressed))
-
+    def force_release_still_pressed_keys(s, still_pressed):
+        keyboard_keys = []
+        consumer_keys = []
+        for key_idx in still_pressed :
+            key_type, key_vcode = s._get_type_and_vcode(key_idx)
+            if key_type == "cc" : continue
+            keyboard_keys.append( scancodes.get_hid_usage_id( key_type, key_vcode ) )
+            s.awaiting_physical_release.update({key_idx})
+        s.ble_keyboard.release(*keyboard_keys)
+    
 
 def main_loop(layout, matrix):
     poll_rate_interval = 1. / POLLING_RATE
@@ -192,4 +143,6 @@ def main_loop(layout, matrix):
         time.sleep(0.5)
 
 if __name__ == '__main__':
-    main_loop(layout, matrix)
+    with open("config.json", "r") as file:
+        matrix, layer_manager = setup(file.read())
+    main_loop(layer_manager, matrix)

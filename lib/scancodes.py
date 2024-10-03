@@ -1,383 +1,164 @@
-class TRANS : pass
+# things to know : 
+#   - codes used for the keys here are HID Usage ID
+#   - Usage ID are linked to Usage Page
+#   - the way Adafruit set up the keyboard HID descriptor gives access to 3 Usage Pages : Keyboard (0x07), Mouse, Consumer(0x0c)
 
-class Scancodes :
+def get_hid_usage_id(_type, key_name):
+    return getattr(globals()[_type.strip()], key_name.strip())
 
-    NOKEY = 0x0
+# Non keys
+class no:
+    TRANS = "no:TRANS"
+    key = nop = _ = 0x0
+
+#KeyBoard (Usage Page : 0x07)
+class kb :
+    A = 0x0004 # keyboard A and a
+    B = 0x0005 # keyboard B and b
+    C = 0x0006 # keyboard C and c
+    D = 0x0007 # keyboard D and d
+    E = 0x0008 # keyboard E and e
+    F = 0x0009 # keyboard F and f
+    G = 0x000a # keyboard G and g
+    H = 0x000b # keyboard H and h
+    I = 0x000c # keyboard I and i
+    J = 0x000d # keyboard J and j
+    K = 0x000e # keyboard K and k
+    L = 0x000f # keyboard L and l
+    M = 0x0010 # keyboard M and m
+    N = 0x0011 # keyboard N and n
+    O = 0x0012 # keyboard O and o
+    P = 0x0013 # keyboard P and p
+    Q = 0x0014 # keyboard Q and q
+    R = 0x0015 # keyboard R and r
+    S = 0x0016 # keyboard S and s
+    T = 0x0017 # keyboard T and t
+    U = 0x0018 # keyboard U and u
+    V = 0x0019 # keyboard V and v
+    W = 0x001a # keyboard W and w
+    X = 0x001b # keyboard X and x
+    Y = 0x001c # keyboard Y and y
+    Z = 0x001d # keyboard Z and z
+    _1 = 0x001e # keyboard 1 and !
+    _2 = 0x001f # keyboard 2 and @
+    _3 = 0x0020 # keyboard 3 and #
+    _4 = 0x0021 # keyboard 4 and $
+    _5 = 0x0022 # keyboard 5 and %
+    _6 = 0x0023 # keyboard 6 and ^
+    _7 = 0x0024 # keyboard 7 and &
+    _8 = 0x0025 # keyboard 8 and *
+    _9 = 0x0026 # keyboard 9 and (
+    _0 = 0x0027 # keyboard 0 and )
+    enter = 0x0028 # keyboard return
+    # win : false
+    escape = esc = 0x0029 # keyboard escape
+    backspace = bkspc = 0x002a # keyboard delete (backspace)
+    # win : false
+    tab = 0x002b # keyboard tab
+    space = 0x002c # keyboard spacebar
+    minus = 0x002d # keyboard - and _
+    equals = 0x002e # keyboard = and +
+    l_bracket = lbckt = 0x002f # keyboard [ and {
+    r_bracket = rbckt = 0x0030 # keyboard ] and }
+    backslash = bslsh = 0x0031 # keyboard \ and |;
+    pound = 0x0032 # # and ~ (non-us)
+    #win : true
+    semicolon = smcln = 0x0033 # keyboard ; and :
+    quote = 0x0034 # keyboard ‘ and “
+    grave_accent = 0x0035 # keyboard grave accent and tilde
+    comma = 0x0036 # keyboard , and <
+    period = priod = 0x0037 # keyboard . and &gt;
+    forward_slash = fslsh = 0x0038 # keyboard / and&#160;?
+    caps_lock = cplck = 0x0039 # keyboard caps lock
+    F1 = 0x003a # keyboard f1
+    F2 = 0x003b # keyboard f2
+    F3 = 0x003c # keyboard f3
+    F4 = 0x003d # keyboard f4
+    F5 = 0x003e # keyboard f5
+    F6 = 0x003f # keyboard f6
+    F7 = 0x0040 # keyboard f7
+    F8 = 0x0041 # keyboard f8
+    F9 = 0x0042 # keyboard f9
+    F10 = 0x0043 # keyboard f10
+    F11 = 0x0044 # keyboard f11
+    F12 = 0x0045 # keyboard f12
+    print_screen = 0x0046 # keyboard printscreen
+    scroll_lock = 0x0047 # keyboard scroll lock
+    pause = 0x0048 # keyboard pause
+    insert = 0x0049 # keyboard insert
+    home = 0x004a # keyboard home
+    page_up = pgup = 0x004b # keyboard pageup
+    delete = dlete = 0x004c # keyboard delete(forward)
+    end = 0x004d # keyboard end
+    page_down = pgdwn = 0x004e # keyboard pagedown
+    right = right_arrow = 0x004f # keyboard rightarrow
+    left = left_arrow = 0x0050 # keyboard leftarrow
+    down = down_arrow = 0x0051 # keyboard downarrow
+    up = up_arrow = 0x0052 # keyboard uparrow
+    application = 0x0065 # keyboard application (menu key) (win, unix)
+    power = 0x0066 # keyboard power (mac, unix)
+    F13 = 0x0068 # keyboard f13 (mac)
+    F14 = 0x0069 # keyboard f14 (mac)
+    F15 = 0x006a # keyboard f15 (mac)
+    kp_lparen = 0x00b6 # keypad left parenthesis
+    kp_rparen = 0x00b7 # keypad right parenthesis
+    left_control = lctrl = l_ctrl = control= 0x00e0 # keyboard left control
+    left_shift = lshft = l_shift = shift = 0x00e1 # keyboard left shift
+    left_alt = lalt = l_alt = alt = 0x00e2 # keyboard left alt
+    left_gui = lgui = l_gui = gui = windows = win = command = cmd = 0x00e3 # keyboard left gui
+    right_control = rctrl = r_ctrl = 0x00e4 # keyboard right control
+    right_shift = rshft = r_shift = 0x00e5 # keyboard right shift
+    right_alt = ralt = r_alt = 0x00e6 # keyboard right alt
+    right_gui = rgui = r_gui = r_win = right_command = r_cmd = 0x00e7 # keyboard right gui
+
+# non-us (Usage Page : 0x07)
+class nus:
+    keyboard_int1 = roma = 0x0087 # keyboard int1 ro (japan: \)(brazil : /)
+    keyboard_int2 = kana = 0x0088 # keyboard int2 kana (japan)
+    keyboard_int3 = yen = 0x0089 # keyboard int3 yen (japan)
+    keyboard_int4 = hen = henkan  = 0x008a # keyboard int4<br />henkan (conversion) (japan)
+    keyboard_int5 = muhan = muhenkan = 0x008b # keyboard int5<br />muhenkan (non-conversion) (japan)
+    keyboard_int6 = jpcom = kpjpcomma = 0x008c # keyboard int6<br />pc98 keypad comma
+    keyboard_int7 = 0x008d # keyboard int7<br />pc98 toggle single-byte/double-byte mode
+    keyboard_int8 = 0x008e # keyboard int8
+    keyboard_int9 = 0x008f # keyboard int9
+    keyboard_lang1 = hangl = hangul = 0x0090 # keyboard lang1<br />hangul/english toggle (korean)
+    keyboard_lang2 = hanja = hanja = 0x0091 # keyboard lang2<br />hanja conversion (korean)
+    keyboard_lang3 = 0x0092 # keyboard lang3<br />pc98 katakana
+    keyboard_lang4 = 0x0093 # keyboard lang4<br />pc98 hiragana
+    keyboard_lang5 = 0x0094 # keyboard lang5<br />pc98 "kaku": hankaku/zenkaku ("full-size"/"half-size"/"kanji") when not on keyboard tilde key (japanese)
+    keyboard_lang6 = 0x0095 # keyboard lang6<br />pc98 furigana (hiragana as pronunciation-help above kanji)
+    keyboard_lang7 = 0x0096 # keyboard lang7
+    keyboard_lang8 = 0x0097 # keyboard lang8
+    keyboard_lang9 = 0x0098 # keyboard lang9
     
-    _ = 0x0
-
-    A = 0x0004 # Keyboard a and A
-    # win : True
-
-    B = 0x0005 # Keyboard b and B
-    # win : True
-
-    C = 0x0006 # Keyboard c and C
-    # win : True
-
-    D = 0x0007 # Keyboard d and D
-    # win : True
-
-    E = 0x0008 # Keyboard e and E
-    # win : True
-
-    F = 0x0009 # Keyboard f and F
-    # win : True
-
-    G = 0x000a # Keyboard g and G
-    # win : True
-
-    H = 0x000b # Keyboard h and H
-    # win : True
-
-    I = 0x000c # Keyboard i and I
-    # win : True
-
-    J = 0x000d # Keyboard j and J
-    # win : True
-
-    K = 0x000e # Keyboard k and K
-    # win : True
-
-    L = 0x000f # Keyboard l and L
-    # win : True
-
-    M = 0x0010 # Keyboard m and M
-    # win : True
-
-    N = 0x0011 # Keyboard n and N
-    # win : True
-
-    O = 0x0012 # Keyboard o and O
-    # win : True
-
-    P = 0x0013 # Keyboard p and P
-    # win : True
-
-    Q = 0x0014 # Keyboard q and Q
-    # win : True
-
-    R = 0x0015 # Keyboard r and R
-    # win : True
-
-    S = 0x0016 # Keyboard s and S
-    # win : True
-
-    T = 0x0017 # Keyboard t and T
-    # win : True
-
-    U = 0x0018 # Keyboard u and U
-    # win : True
-
-    V = 0x0019 # Keyboard v and V
-    # win : True
-
-    W = 0x001a # Keyboard w and W
-    # win : True
-
-    X = 0x001b # Keyboard x and X
-    # win : True
-
-    Y = 0x001c # Keyboard y and Y
-    # win : True
-
-    Z = 0x001d # Keyboard z and Z
-    # win : True
-
-    NUM_1 = 0x001e # Keyboard 1 and !
-    # win : True
-
-    NUM_2 = 0x001f # Keyboard 2 and @
-    # win : True
-
-    NUM_3 = 0x0020 # Keyboard 3 and #
-    # win : True
-
-    NUM_4 = 0x0021 # Keyboard 4 and $
-    # win : True
-
-    NUM_5 = 0x0022 # Keyboard 5 and %
-    # win : True
-
-    NUM_6 = 0x0023 # Keyboard 6 and ^
-    # win : True
-
-    NUM_7 = 0x0024 # Keyboard 7 and &
-    # win : True
-
-    NUM_8 = 0x0025 # Keyboard 8 and *
-    # win : True
-
-    NUM_9 = 0x0026 # Keyboard 9 and (
-    # win : True
-
-    NUM_0 = 0x0027 # Keyboard 0 and )
-    # win : True
-
-    ENTER = 0x0028 # Keyboard Return
-    # win : False
-
-    ESCAPE = ESC = 0x0029 # Keyboard Escape
-    # win : True
-
-    BACKSPACE = 0x002a # Keyboard Delete (Backspace)
-    # win : False
-
-    TAB = 0x002b # Keyboard Tab
-    # win : True
-
-    SPACE = 0x002c # Keyboard Spacebar
-    # win : True
-
-    MINUS = 0x002d # Keyboard - and _
-    # win : True
-
-    EQUALS = 0x002e # Keyboard = and +
-    # win : True
-
-    L_BRACKET = 0x002f # Keyboard [ and {
-    # win : True
-
-    R_BRACKET = 0x0030 # Keyboard ] and }
-    # win : True
-
-    BACKSLASH = 0x0031 # Keyboard \ and |;
-    # win : True
-
-    POUND = 0x0032 # # and ~ (Non-US)
-    #win : True
-
-    SEMICOLON = 0x0033 # Keyboard ; and :
-    # win : True
-
-    QUOTE = 0x0034 # Keyboard ‘ and “
-    # win : True
-
-    GRAVE_ACCENT = 0x0035 # Keyboard Grave Accent and Tilde
-    # win : True
-
-    COMMA = 0x0036 # Keyboard , and <
-    # win : True
-
-    PERIOD = 0x0037 # Keyboard . and &gt;
-    # win : True
-
-    FORWARD_SLASH = 0x0038 # Keyboard / and&#160;?
-    # win : True
-
-    CAPS_LOCK = 0x0039 # Keyboard Caps Lock
-    # win : True
-
-    F1 = 0x003a # Keyboard F1
-    # win : True
-
-    F2 = 0x003b # Keyboard F2
-    # win : True
-
-    F3 = 0x003c # Keyboard F3
-    # win : True
-
-    F4 = 0x003d # Keyboard F4
-    # win : True
-
-    F5 = 0x003e # Keyboard F5
-    # win : True
-
-    F6 = 0x003f # Keyboard F6
-    # win : True
-
-    F7 = 0x0040 # Keyboard F7
-    # win : True
-
-    F8 = 0x0041 # Keyboard F8
-    # win : True
-
-    F9 = 0x0042 # Keyboard F9
-    # win : True
-
-    F10 = 0x0043 # Keyboard F10
-    # win : True
-
-    F11 = 0x0044 # Keyboard F11
-    # win : True
-
-    F12 = 0x0045 # Keyboard F12
-    # win : True
-
-    PRINT_SCREEN = 0x0046 # Keyboard PrintScreen
-    # win : True
-
-    SCROLL_LOCK = 0x0047 # Keyboard Scroll Lock
-    # win : True
-
-    PAUSE = 0x0048 # Keyboard Pause
-    # win : True
-
-    INSERT = 0x0049 # Keyboard Insert
-    # win : True
-
-    HOME = 0x004a # Keyboard Home
-    # win : True
-
-    PAGE_UP = 0x004b # Keyboard PageUp
-    # win : True
-
-    DELETE = 0x004c # Keyboard Delete(forward)
-    # win : True
-
-    END = 0x004d # Keyboard End
-    # win : True
-
-    PAGE_DOWN = 0x004e # Keyboard PageDown
-    # win : True
-
-    RIGHT = RIGHT_ARROW = 0x004f # Keyboard RightArrow
-    # win : True
-
-    LEFT = LEFT_ARROW = 0x0050 # Keyboard LeftArrow
-    # win : True
-
-    DOWN = DOWN_ARROW = 0x0051 # Keyboard DownArrow
-    # win : True
-
-    UP = UP_ARROW = 0x0052 # Keyboard UpArrow
-    # win : True
-
-    KEYPAD_NUMLOCK = KP_NLCK = 0x0053 # Keypad Num Lock and Clear
-    # win : False
-
-    KEYPAD_FOWARD_SLASH = KP_DIV = 0x0054 # Keypad /
-    # win : True
-
-    KEYPAD_ASTERISK = KP_MUL = 0x0055 # Keypad *
-    # win : True
-
-    KEYPAD_MINUS = KP_MIN = 0x0056 # Keypad -
-    # win : True
-
-    KEYPAD_PLUS = KP_ADD = 0x0057 # Keypad +
-    # win : True
-
-    KEYPAD_ENTER = KP_ENTER = 0x0058 # Keypad ENTER
-    # win : True
-
-    KP_1 = KEYPAD_ONE = 0x0059 # Keypad 1 and End
-    # win : True
-
-    KP_2 = KEYPAD_TWO = 0x005a # Keypad 2  and Down Arrow
-    # win : True
-
-    KP_3 = KEYPAD_THREE = 0x005b # Keypad 3 and PageDn
-    # win : True
-
-    KP_4 = KEYPAD_FOUR = 0x005c # Keypad 4 and Left Arrow
-    # win : True
-
-    KP_5 = KEYPAD_FIVE = 0x005d # Keypad 5
-    # win : True
-
-    KP_6 = KEYPAD_SIX = 0x005e # Keypad 6 and Right Arrow
-    # win : True
-
-    KP_7 = KEYPAD_SEVEN = 0x005f # Keypad 7  and Home
-    # win : True
-
-    KP_8 = KEYPAD_EIGHT = 0x0060 # Keypad 8 and Up Arrow
-    # win : True
-
-    KP_9 = KEYPAD_NINE = 0x0061 # Keypad 9 and PageUp
-    # win : True
-
-    KP_0 = KEYPAD_ZERO = 0x0062 # Keypad 0 and Insert
-    # win : True
-
-    KEYPAD_PERIOD = KP_PERIOD = 0x0063 # Keypad . and Delete
-    # win : True
-
-    KEYPAD_BACKSLASH = KP_BSLASH = 0x0064 # Keyboard Int, \ and &#124; (Between left Shift and Z on ISO layouts)
-    # win : True
-
-    APPLICATION = 0x0065 # Keyboard Application (Menu key)
-    # win : True
-
-    POWER = 0x0066 # Keyboard Power (MAC)
-    # win : False
-
-    F13 = 0x0068 # Keyboard F13
-    # win : False
-
-    F14 = 0x0069 # Keyboard F14
-    # win : False
-
-    F15 = 0x006a # Keyboard F15
-    # win : False
-
-    F16 = 0x006b # Keyboard F16
-    # win : False
-
-    F17 = 0x006c # Keyboard F17
-    # win : False
-
-    F18 = 0x006d # Keyboard F18
-    # win : False
-
-    F19 = 0x006e # Keyboard F19
-    # win : False
-
-    WIN_MUTE = 0X007F # mute (windows)
-    # win : True
-
-    WIN_VOLUME_UP = 0x0080 # volume up (windows)
-    # win : True
-
-    WIN_VOLUME_DOWN = 0x0080 # volume down (windows)
-    # win : True
-
-    KEYPAD_COMMA = 0x0085 # Keypad ,(brazil)
-    # win : False
-
-    KEYBOARD_INT1 = KEYBOARD_RO = 0x0087 # Keyboard INT1 Ro (Japan: \)(Brazil : /)
-    KEYBOARD_INT2 = KEYBOARD_KANA = 0x0088 # Keyboard INT2 Kana (Japan)
-    KEYBOARD_INT3 = KEYBOARD_YEN = 0x0089 # Keyboard INT3 Yen (Japan)
-    KEYBOARD_INT4 = KEYBOARD_HENKAN  = 0x008a # Keyboard INT4<br />Henkan (Conversion) (Japan)
-    KEYBOARD_INT5 = KEYBOARD_MUHENKAN = 0x008b # Keyboard INT5<br />Muhenkan (Non-conversion) (Japan)
-    KEYBOARD_INT6 = KEYBOARD_KPJPCOMMA = 0x008c # Keyboard INT6<br />PC98 Keypad comma
-    KEYBOARD_INT7 = 0x008d # Keyboard INT7<br />PC98 Toggle single-byte/double-byte mode
-    KEYBOARD_INT8 = 0x008e # Keyboard INT8
-    KEYBOARD_INT9 = 0x008f # Keyboard INT9
-
-    KEYBOARD_LANG1 = KEYBOARD_HANGUL = 0x0090 # Keyboard LANG1<br />Hangul/English toggle (Korean)
-    KEYBOARD_LANG2 = KEYBOARD_HANJA = 0x0091 # Keyboard LANG2<br />Hanja conversion (Korean)
-    KEYBOARD_LANG3 = 0x0092 # Keyboard LANG3<br />PC98 Katakana
-    KEYBOARD_LANG4 = 0x0093 # Keyboard LANG4<br />PC98 Hiragana
-    KEYBOARD_LANG5 = 0x0094 # Keyboard LANG5<br />PC98 "Kaku": Hankaku/Zenkaku ("Full-size"/"Half-size"/"Kanji") when not on Keyboard Tilde key (Japanese)
-    KEYBOARD_LANG6 = 0x0095 # Keyboard LANG6<br />PC98 Furigana (Hiragana as pronunciation-help above Kanji)
-    KEYBOARD_LANG7 = 0x0096 # Keyboard LANG7
-    KEYBOARD_LANG8 = 0x0097 # Keyboard LANG8
-    KEYBOARD_LANG9 = 0x0098 # Keyboard LANG9
-
-    KP_LPAREN = 0x00b6 # Keypad left parenthesis
-    KP_RPAREN = 0x00b7 # Keypad right parenthesis
-
-    LEFT_CONTROL = L_CTRL = CONTROL= 0x00e0 # Keyboard Left Control
-    LEFT_SHIFT = L_SHIFT = SHIFT = 0x00e1 # Keyboard Left Shift
-    LEFT_ALT = L_ALT = ALT = 0x00e2 # Keyboard Left Alt
-    LEFT_GUI = L_GUI = GUI = WINDOWS = WIN = COMMAND = CMD = 0x00e3 # Keyboard Left GUI
-    RIGHT_CONTROL = R_CTRL = 0x00e4 # Keyboard Right Control
-    RIGHT_SHIFT = R_SHIFT = 0x00e5 # Keyboard Right Shift
-    RIGHT_ALT = R_ALT = 0x00e6 # Keyboard Right Alt
-    RIGHT_GUI = R_GUI = R_WIN = RIGHT_COMMAND = R_CMD = 0x00e7 # Keyboard Right GUI
-
-    cc = {
-        "play" : 0xcd,
-        "volu" : 0xe9,
-        "vold" : 0xea,
-        "mute" : 0xe2,
-        "calc" : 0x192,
-    }
-
-    TRANS = TRANS
-
-    @classmethod
-    def modifier_bit(cls, keycode):
-        return ( 1 << ( keycode - 0xe0 ) ) if cls.CONTROL <= keycode <= cls.R_GUI else 0
+#KeyPad (Usage Page : 0x07)
+class kp :
+    numlock = nmlck = 0x0053 # keypad num lock and clear
+    foward_slash = div = 0x0054 # keypad /
+    asterisk = mul = 0x0055 # keypad *
+    minus = min = 0x0056 # keypad -
+    plus = add = 0x0057 # keypad +
+    enter = enter = 0x0058 # keypad enter
+    _1 = one = 0x0059 # keypad 1 and end
+    _2 = two = 0x005a # keypad 2  and down arrow
+    _3 = three = 0x005b # keypad 3 and pagedn
+    _4 = four = 0x005c # keypad 4 and left arrow
+    _5 = five = 0x005d # keypad 5
+    _6 = six = 0x005e # keypad 6 and right arrow
+    _7 = seven = 0x005f # keypad 7  and home
+    _8 = eight = 0x0060 # keypad 8 and up arrow
+    _9 = nine = 0x0061 # keypad 9 and pageup
+    _0 = zero = 0x0062 # keypad 0 and insert
+    period = dot = period = 0x0063 # keypad . and delete
+    backslash = bslsh = kp_bslash = 0x0064 # keyboard int, \ and &#124; (between left shift and z on iso layouts)
+    equal = 0x67 # keypad = (mac)
+    brasil_comma = brcomma = 0x0085 # keypad ,(brazil)
+
+#Consumer Control (Usage Page : 0x0c)
+class cc:
+    play = 0xcd
+    volup = 0xe9
+    voldn = 0xea
+    mute = 0xe2
+    calc = 0x192
