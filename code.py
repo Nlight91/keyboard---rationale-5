@@ -43,7 +43,7 @@ class MainLogic:
         keys = []
         for key_index in new_released :
             if key_index in s.awaiting_physical_release :
-                s.awaiting_physical_release.difference_update(key_index)
+                s.awaiting_physical_release.difference_update({key_index})
                 continue
             key_string = s.layers[key_index]
             key_type, key_vcode = s._get_type_and_vcode(key_index)
