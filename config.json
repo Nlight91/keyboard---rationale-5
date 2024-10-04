@@ -53,9 +53,9 @@
             "layout" : [
                 "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
                 "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:pgdwn", "kb:pgup ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", 
-                "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "kb:dlete", "kb:bkspc", "no:nop  ", "kb:left ", "kb:down ", "kb:up   ", "kb:right", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", 
+                "no:TRANS", "no:key  ", "no:nop  ", "kb:bkspc", "kb:dlete", "no:nop  ", "no:nop  ", "kb:left ", "kb:down ", "kb:up   ", "kb:right", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", 
                 "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "kb:home ", "kb:end  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  ", 
-                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:TRANS", "no:key  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  " 
+                "no:TRANS", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:TRANS", "no:key  ", "kb:lctrl", "no:nop  ", "no:nop  ", "no:nop  ", "no:nop  ", "no:key  ", "no:nop  ", "no:nop  " 
             ]
         },
         {
